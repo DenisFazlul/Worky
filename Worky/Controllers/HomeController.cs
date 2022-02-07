@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using Worky.Models;
 
 namespace Worky.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -12,11 +14,13 @@ namespace Worky.Controllers
         {
             _logger = logger;
         }
-
+        
         public IActionResult Index()
         {
-            return View();
-            string s= "asd";
+         
+                return View();
+            
+          
         }
 
         public IActionResult Privacy()
