@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewData["Title"] = "YourProjects";
+}
+
+<h1>YourProjects</h1>
+
+@model List<Worky.Project.Project>
+
+
+<a href="/Projects/AddProject">Добавить проект</a>
+@foreach(Worky.Project.Project pr in Model)
+{
+    <a>@pr.Name</a>
+    <a href="/Projects/EditProject?id=@pr.Id">Изменить</a>
+    <a href="/Project/Index?ProjectId=@pr.Id">Открыть</a>
+}

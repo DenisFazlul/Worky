@@ -5,7 +5,7 @@ namespace Worky.Users
     public class UserDbContext:DbContext,IUsersCollection
     {
         ///Add-Migration IsBlock -context UserDbContext
-
+      
         ///Update-Database -context UserDbContext
 
         public UserDbContext(DbContextOptions<UserDbContext> options)

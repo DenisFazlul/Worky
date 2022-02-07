@@ -73,7 +73,7 @@ namespace Worky.Controllers
                     return View("ConfrimCode",m);
                 }
                 Authenticate(ExistUser);
-                return RedirectToAction("Index","Home");
+                return RedirectToAction("YourProjects", "Projects");
             }
 
             return RedirectToAction("Login");

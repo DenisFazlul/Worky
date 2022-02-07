@@ -11,6 +11,12 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDbContext<Worky.Users.UserDbContext>(options =>
     options.UseSqlServer(connectionString));
+builder.Services.AddDbContext<Worky.Data.Project.ProjectDbContext>(options =>
+    options.UseSqlServer(connectionString));
+
+builder.Services.AddDbContext<Worky.Data.InviteDbContext>(options =>
+    options.UseSqlServer(connectionString));
+
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -61,7 +67,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Projects}/{action=YourProjects}/{id?}");
     
 app.MapRazorPages();
 
