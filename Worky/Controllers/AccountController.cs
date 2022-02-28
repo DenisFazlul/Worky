@@ -173,5 +173,22 @@ namespace Worky.Controllers
                 return View("ChangePass");
             }
         }
+        [HttpGet]
+        public IActionResult ChangeUserData()
+        {
+            User user = GetCurUser();
+            Models.Account.ChangeUserDataModel model = new Models.Account.ChangeUserDataModel(user);
+            return View(model);
+        }
+        [HttpPost]
+        public IActionResult ChangeUserData(Models.Account.ChangeUserDataModel model)
+        {
+            User user = GetCurUser();
+            user = this.Users.GetUser(user.Id);
+            user.SetDataFromModel(model);
+           
+            this.Users.UpdateUser(user);
+            return RedirectToAction("Profile");
+        }
     }
 }

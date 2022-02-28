@@ -3,31 +3,83 @@
 @{
     ViewData["Title"] = "Index";
 }
+<head>
+    <style>
+        .DgridCard{
+               
+    height: 200px;
+   max-width:24em;
+    margin: 10px;
+    width:100%;
 
-<h1>Index</h1>
+        }
+        .DGrid{
+
+            display:flex;
+            gap:5px;
+            flex-wrap:wrap
+            
+        }
+    </style>
+</head>
+
+<h1>@Model.Name</h1>
+<hr />  
+
+<div style="display:flex">
+    <a class="Dbtn" href="/Invite/Add?ProjectId=@Model.Id">Добавить пользователя</a>
+   
+    @foreach(Worky.Project.Invite i in @Model.Invites)
+    {
+   
+      <div class="Dbtn">
+           <a>@i.GetUserNick()</a>
+            <a href="/Invite/Remove?ProjectId=@Model.Id&&InviteId=@i.Id">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z"/>
+                </svg>
+            </a>
+      </div>
+   
+    }
+</div>
 
 <div>
-    <h4>ProjectModel</h4>
-    <hr />
+    
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
+           <input asp-for="Id" hidden />
+          
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Id)
-        </dd>
+       
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Index">Back to List</a>
+    <div class="DGrid ">
+        <div class="DgridCard DCard">
+            <h3>Заметки</h3>
+            <a href="/Notes/ProjectNotes?ProjectId=@Model.Id" >Заметки по проекту</a>
+        </div>
+        <div class="DgridCard DCard">
+             <h3>Доска</h3>
+            <a href="/Tasks/ProjectTasks?ProjectId=@Model.Id" >Доска для задач</a>
+        </div>
+        <div class="DgridCard DCard">
+             <h3>Документация</h3>
+            <a href="/Documentation/Pages?pid=@Model.Id">Страницы с инструкциями</a>
+        </div>
+        <div class="DgridCard DCard">
+             <h3>Календарь</h3>
+            <a href="/Callendar/Month?pid=@Model.Id">Каледнрь с задачами и событиями</a>
+        </div>
+        <div class="DgridCard DCard">
+
+        </div>
+
+    </div>
 </div>
-<a href="/Invite/Add?ProjectId=@Model.Id">Добавить пользователя</a>
-<br />
-<hr />
-@foreach(Worky.Project.Invite i in @Model.Invites)
-{
-   
-    <a>@i.Name</a>
-    <a href="/Invite/Remove?ProjectId=@Model.Id&&InviteId=@i.Id">Удалить</a>
-}
+
+
+
+<div></div>
+

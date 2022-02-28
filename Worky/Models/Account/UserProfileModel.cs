@@ -7,10 +7,12 @@ namespace Worky.Models.Account
 
         public Users.User User { get; set; }
        public string UserEmail { get; set; }
+        public string UserName { get; set; }
         public UserProfileModel(User existUser)
         {
             this.User= existUser;
             this.UserEmail = User.Email;
+            this.UserName = existUser.UserName;
         }
 
         

@@ -1,0 +1,31 @@
+﻿body {
+}
+
+
+
+@media (max-width: 425px) {
+    /* MOBILE */
+    .EditCardGrid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1em;
+    }
+}
+
+@media (min-width: 425px) and (max-width: 1024px) {
+    /* TABLET */
+    .EditCardGrid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1em;
+    }
+}
+
+@media (min-width: 1024px) {
+    /* DESKTOP */
+    .EditCardGrid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1em;
+    }
+}

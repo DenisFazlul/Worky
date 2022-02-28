@@ -1,0 +1,85 @@
+﻿@model Worky.Models.Project.EditTaskModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+<head>
+    <style>
+    
+    </style>
+     <link rel="stylesheet" href="~/css/EditCard.css" asp-append-version="true" />
+</head>
+
+
+
+<h2>Редактирование</h2>
+
+
+
+<a href="/Tasks/ProjectTasks?ProjectId=@Model.ProjectId">К проекту</a>
+
+<hr />
+
+        <form asp-action="Edit">
+            <div class="EditCardGrid">
+
+            
+                <div>
+
+           
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="TaskId" class="control-label" hidden></label>
+                        <input asp-for="TaskId" class="form-control" hidden />
+                        <input asp-for="ProjectId" class="form-control" hidden />
+                        <span asp-validation-for="TaskId" class="text-danger" hidden></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Description" class="control-label"></label>
+                        <textarea  asp-for="Description" style="height:300px; width:100%" name="Description" class="form-control"></textarea>
+                       @* <input asp-for="Description" class="form-control" />*@
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                 </div>
+
+                <div>
+                    <div class="form-group">
+                       <label asp-for="CurTaskStatusId" class="control-label"></label>
+                       <select class="form-control" asp-for="CurTaskStatusId" asp-items=@Model.GetTaskList()></select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Start" class="control-label"></label>
+                        <input asp-for="Start" class="form-control" />
+                        <span asp-validation-for="Start" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="End" class="control-label"></label>
+                        <input asp-for="End" class="form-control" />
+                        <span asp-validation-for="End" class="text-danger"></span>
+                    </div>
+               
+                    
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+
+                <input type="submit" value="Сохранить" class="Dbtn" style="width:100%" />
+            </div>
+        </form>
+        <hr />
+   
+
+<div>
+    
+    <a href="/Task/DeleteTask?TaskId=@Model.TaskId" class="Dbtn">Удалить</a>
+</div>
+
+
+

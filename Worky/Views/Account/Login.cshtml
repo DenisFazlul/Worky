@@ -4,36 +4,60 @@
     ViewData["Title"] = "Login";
 }
 
+@{
+    Layout = "_Layout_Login";
+}
+
+<div class="bd">
+
+
+<div class="form-signin">
+   
 
 
 
-<h4>LoginModel</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+<div class="row" style="text-align:center">
+  
+     <div class="DCard" style="padding:40px">
+          <h2>Войти</h2>
+        <hr />
         <form asp-action="Login">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
+            <div class="form-group form-group_padding ">
+                
+                
+                <input asp-for="Email"  class="form-control" placeholder="name@example.com"  />
+                <span asp-validation-for="Email" ></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
+            <div class="form-group form-group_padding">
+                
+                <input asp-for="Password" class="form-control" placeholder="Passward1234" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Войти" class="btn btn-primary" />
+            <div class="form-group form-group_padding">
+                <input type="submit" value="Войти" class="Dbtn" style="width:100%" />
+            </div>
+            <div class="form-group form-group_padding">
+                <a asp-action="SentPass">Напомнить пароль</a>
+     <a asp-action="Registration">Регистрация</a>
             </div>
         </form>
     </div>
+    <div>
+  
+</div>
 </div>
 
-<div>
-    <a asp-action="SentPass">Напомнить пароль</a>
-     <a asp-action="Registration">Регистрация</a>
+
 </div>
+</div>
+
+
+
+
+    
+  
+
 
 
 

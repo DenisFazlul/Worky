@@ -1,4 +1,6 @@
-﻿namespace Worky.Users
+﻿using Worky.Models.Account;
+
+namespace Worky.Users
 {
     public class User
     {
@@ -9,5 +11,10 @@
         public bool IsConfirmed { get; set; } = false;
         public string UserName { get; set; } = "Новый";
         public bool IsBlock { get; set; } = false;
+
+        internal void SetDataFromModel(ChangeUserDataModel model)
+        {
+            this.UserName = model.UserName;
+        }
     }
 }

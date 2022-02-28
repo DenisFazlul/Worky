@@ -1,0 +1,177 @@
+﻿
+
+
+@{
+    ViewData["Title"] = "Pages";
+}
+@model Worky.Models.Project.DocumentationModel
+<script src="/js/js/Documentation.js"></script>
+
+<h1>Pages</h1>
+<head>
+    <style>
+        .modalWindow{
+          
+            position: fixed;
+
+            margin: auto;
+            z-index: 1;
+            left:0;
+            right:0;
+           
+            width: 600px;
+            background-color:white;
+            
+            
+            
+        }
+        <style>
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 12px 16px;
+    z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+</style>
+    
+</head>
+<body onload="SetDefaul()">
+
+
+
+<div id="myModal" class="modalWindow DCard" >
+    <div style="display:grid;">
+        <div style="width:100%">
+             <input id="InputName"  class="form-control"/>
+            <input id="ItemId" hidden />
+        </div>
+        <hr />
+        <div>
+            <button onclick="Save()" class="Dbtn">Сохранить</button>
+            <button onclick="CloseModal()" class="Dbtn">Закрыть</button>
+        </div>
+    </div>
+    
+    
+</div>
+
+
+
+<div id="WorkSpace">
+
+
+
+
+<a href="/Documentation/Add?pid=@Model.PorjecId&&ParentId=-1">Add</a>
+
+<div>
+
+@foreach(Worky.Project.Documents.DocIerarhy ir in @Model.docIerarhies)
+{
+            <div class="DCard" id="@ir.Id-Card">
+                    <a id="@ir.Id-Name">@ir.DocName</a>
+                    <a href="/Documentation/Add?pid=@ir.ProjectId&&ParentId=@ir.Id">Add</a>
+                    <button onclick="ChangeName('@ir.Id','@ir.DocName')">Change</button>
+                    <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle show" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="true">
+            
+                    </a>
+                    <ul class="dropdown-menu text-small shadow show" aria-labelledby="dropdownUser2" style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate(0px, 34px);" data-popper-placement="bottom-end">
+                    <li><a class="dropdown-item" onclick="ChangeName('@ir.Id','@ir.DocName')">Изменить</a></li>
+                    <li><a class="dropdown-item" href="#">Добавить</a></li>
+                    
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#" onclick="Delete(@ir.Id)">Удалить</a></li>
+                    </ul>
+                    
+                    @Html.Partial("TreeItem", ir)
+             </div>
+            
+} 
+</div>
+</div>
+
+
+
+<head>
+    <script>
+        var modal = document.getElementById("myModal");
+        var WorkSpace=document.getElementById("WorkSpace");
+    function ChangeName(id,Name)
+    {
+       const inputName= document.getElementById("InputName");
+       inputName.value=Name;
+
+       const inputId= document.getElementById("ItemId");
+       inputId.value=id;
+
+       OpenModal();
+       
+
+
+
+    }
+    function OpenModal()
+    {
+        modal.style.display = "block";
+      
+      
+    }
+    function CloseModal()
+    {
+        modal.style.display = "none";
+        
+    }
+    function Save()
+    {
+        const Name= document.getElementById("InputName").value;
+        const Id=document.getElementById("ItemId").value;
+        const fieldName=Id+'-Name';
+       const elm= document.getElementById(fieldName);
+       elm.innerHTML=Name;
+       
+      
+        CloseModal();
+    }
+    function SetDefaul(){
+        
+        modal.style.display="none";
+         var test = getURLVar('pid');
+        alert(test);
+    }
+    function Delete(id)
+    {
+         const fieldName=id+'-Card';
+        const elm= document.getElementById(fieldName);
+        elm.remove();
+    }
+   
+ 
+        function getURLVar(key) {
+            var vars = location.search.substr(1).split('&').reduce(function(res, a) {
+            var t = a.split('=');
+            res[decodeURIComponent(t[0])] = t.length == 1 ? null : decodeURIComponent(t[1]);
+            return res;
+            }, {});
+        return vars[key] ? vars[key] : ''; 
+}
+    </script>
+</head>
+
+
+</body>
+
+
+
+

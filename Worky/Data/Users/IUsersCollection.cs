@@ -11,8 +11,6 @@
         public void AddUser(User user);
         public void DeleteUser(User user);
         public void UpdateUser(User user);
-        
-        
-       
+
     }
 }

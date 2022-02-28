@@ -1,12 +1,17 @@
+using JavaScriptEngineSwitcher.ChakraCore;
+using JavaScriptEngineSwitcher.Extensions.MsDependencyInjection;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using React.AspNet;
 using Worky.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+Worky.DataDB.connectionString = connectionString;
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDbContext<Worky.Users.UserDbContext>(options =>
@@ -16,6 +21,9 @@ builder.Services.AddDbContext<Worky.Data.Project.ProjectDbContext>(options =>
 
 builder.Services.AddDbContext<Worky.Data.InviteDbContext>(options =>
     options.UseSqlServer(connectionString));
+
+builder.Services.AddReact();
+builder.Services.AddJsEngineSwitcher(options => options.DefaultEngineName = ChakraCoreJsEngine.EngineName).AddChakraCore();
 
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -57,8 +65,11 @@ else
     app.UseHsts();
 }
 
+app.UseReact(config => { });
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
 
 app.UseRouting();
 

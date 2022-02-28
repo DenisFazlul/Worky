@@ -3,15 +3,30 @@
     ViewData["Title"] = "YourProjects";
 }
 
-<h1>YourProjects</h1>
+<h1>Проекты</h1>
+<br />
 
 @model List<Worky.Project.Project>
 
 
-<a href="/Projects/AddProject">Добавить проект</a>
+
+<div style="display:flex;flex-wrap:wrap">
+    <div class="DCard">
+        <h4>Новый проект</h4>
+        <a href="/Projects/AddProject">Нажмите что бы добавить новый проект</a>
+    </div>
+
 @foreach(Worky.Project.Project pr in Model)
 {
-    <a>@pr.Name</a>
-    <a href="/Projects/EditProject?id=@pr.Id">Изменить</a>
-    <a href="/Project/Index?ProjectId=@pr.Id">Открыть</a>
+    <div class="DCard" style="max-width:24em;">
+        <h4>@pr.Name</h4>
+        <p>@pr.Description</p>
+        <div>
+            <a href="/Projects/EditProject?id=@pr.Id" class="Dbtn"style="color:black" >Изменить</a>
+    <a href="/Project/Index?ProjectId=@pr.Id" class="Dbtn" style="color:black">Открыть</a>
+        </div>
+    </div>
+    
+    
 }
+</div>

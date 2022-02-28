@@ -20,17 +20,20 @@ namespace Worky.Controllers
         public IActionResult Index(int ProjectId)
         {
             Project.Project project = Projects.GetProject(ProjectId);
+            
             if(project==null)
             {
                 return Content("Проекта не существует");
             }
             Models.Project.ProjectModel model=new Models.Project.ProjectModel();
-            model.Id = ProjectId;
+            
+            model.SetValuesFromProject(project);
             model.Invites = Invites.GetInvitesForProject(ProjectId);
             foreach(Worky.Project.Invite i in model.Invites)
             {
-                i.Name = Users.GetUser(i.UserId).Email;
-                
+                i.UserEmail = Users.GetUser(i.UserId).Email;
+                i.UserName = Users.GetUser(i.UserId).UserName;
+
             }
 
             if (IsUserAcseptedToProject(project) || IsUserInvittesToProiject(model.Invites))
@@ -41,6 +44,7 @@ namespace Worky.Controllers
 
             return Content("Нет доступа");
         }
+        
 
         private bool IsUserInvittesToProiject(List<Invite> invites)
         {
