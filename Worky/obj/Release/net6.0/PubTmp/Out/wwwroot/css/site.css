@@ -55,14 +55,15 @@ body {
    
    
 }
+    .DCard:hover {
+        box-shadow: 0px 1px 10px #fbb6b6;
+    }
 .DCardPadding{
     padding:20px;
     margin:10px;
     
 }
-    .DCard:hover {
-        box-shadow: 0px 1px 10px #fbb6b6;
-    }
+    
     .ClickAble{
 
     }

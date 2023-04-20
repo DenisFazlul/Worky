@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Worky.Data.Project;
 using Worky.Models.Project;
 using Worky.Project;
 
@@ -7,6 +8,13 @@ namespace Worky.Controllers
 {
     public class FilesController : Controller
     {
+        Data.Project.IdFilesDb col;
+        Data.Project.IProjectDb prj;
+        public FilesController(ProjectDbContext context)
+        {
+            col = context;
+            prj= context;
+        }
         [HttpGet]
         public IActionResult AddTaskFile(int TaskId)
         {
@@ -26,8 +34,7 @@ namespace Worky.Controllers
             if (uploadedFile.Length > 0)
             {
 
-                Data.Project.IdFilesDb col = Data.DB.GetFileDb();
-                Data.Project.IProjectDb prj = Data.DB.GetProject();
+                
                     DFile file = new DFile(uploadedFile);
                     col.AddFile(file);
                     TaskFile ts =new TaskFile();

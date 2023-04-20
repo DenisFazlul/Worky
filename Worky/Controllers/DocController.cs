@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Worky.Data.Project;
 
 namespace Worky.Controllers
 {
@@ -7,13 +8,18 @@ namespace Worky.Controllers
     [ApiController]
     public class DocController : ControllerBase
     {
+        IProjectDb projectDb;
+        public DocController(ProjectDbContext context)
+        {
+            projectDb = context;
+        }
         [HttpGet]
         public Models.Project.DocumentationModel Get(int pid)
         {
             Models.Project.DocumentationModel model = new Models.Project.DocumentationModel();
-            Data.Project.IProjectDb col = Data.DB.GetProject();
+            
             model.PorjecId = pid;
-            model.SetIerarhy(col.GetPagesForProject(pid));
+            model.SetIerarhy(projectDb.GetPagesForProject(pid));
             return model;
         }
     }

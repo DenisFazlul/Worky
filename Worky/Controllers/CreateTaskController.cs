@@ -2,14 +2,23 @@
 using Newtonsoft.Json;
 using Worky.Models.Project;
 using Worky.Project;
+using Worky.Users;
+using Worky.Data.Project;
 
 namespace Worky.Controllers
 {
     public class CreateTaskController : Controller
     {
+        IProjectDb projectDb;
+        IdFilesDb filesDB;
+        public CreateTaskController(ProjectDbContext context)
+        {
+            projectDb = context;
+            filesDB = context;
+        }
         public IActionResult Create(int ProjectId)
         {
-
+            
             Models.CreateTaskModel model = new Models.CreateTaskModel();
             model.ProjectId = ProjectId;
             model.BackLink = $"/Tasks/ProjectTasks?ProjectId={ProjectId}";
@@ -34,17 +43,21 @@ namespace Worky.Controllers
         public IActionResult AddToDb(Models.CreateTaskModel model, List<IFormFile> files)
         {
             Worky.Project.Task.Task task = model.GetTask();
-          
-            task.AddToDb();
+            CurrentUser u = new CurrentUser(User);
+            task.AutorId = u.Id;
+            projectDb.AddTask(task);
+            
+             
             foreach(IFormFile f in files)
             {
                 DFile file = new DFile(f);
-                file.AddToDb();
+                filesDB.AddFile(file);
+               
                 TaskFile ts = new TaskFile();
                 ts.TaskId = task.Id;
                 ts.FileId = file.Id;
                 ts.Name = file.Name;
-                ts.AddToDb();
+                projectDb.AddTaskFile(ts);
             }
 
             return Redirect(model.BackLink);

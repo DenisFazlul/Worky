@@ -6,9 +6,10 @@ namespace Worky.Controllers
     {
         Data.Project.IProjectDb Projects;
         Users.IUsersCollection Users;
-        public NotesController(Data.Project.ProjectDbContext projects)
+        public NotesController(Data.Project.ProjectDbContext db)
         {
-            Projects = projects;
+            Projects = db;
+            Users = db;
         }
         public IActionResult ProjectNotes(int ProjectId)
         {

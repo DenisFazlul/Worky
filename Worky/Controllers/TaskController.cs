@@ -2,15 +2,22 @@
 using Worky.Models.Project;
 using Worky.Project;
 using Worky.Project.Task;
+using Worky.Users;
+using Worky.Data.Project;
 
 namespace Worky.Controllers
 {
     public class TaskController : Controller
     {
+        IProjectDb col;
+        public TaskController(ProjectDbContext db)
+        {
+            col = db;
+        }
         [HttpGet]
         public IActionResult Edit(int TaskId)
         {
-            Data.Project.IProjectDb col = Data.DB.GetProject();
+            
             Worky.Project.Task.Task task= col.GetTaskById(TaskId);
 
             task.GetComments();
@@ -27,7 +34,7 @@ namespace Worky.Controllers
         [HttpPost]
         public IActionResult Edit(Models.Project.EditTaskModel model)
         {
-            Data.Project.IProjectDb col = Data.DB.GetProject();
+           
             Worky.Project.Task.Task task = col.GetTaskById(model.TaskId);
             task.SetData(model);
             col.Update(task);
@@ -36,7 +43,7 @@ namespace Worky.Controllers
         }
         public IActionResult AddNewComment(Models.Project.EditTaskModel model)
         {
-            Data.Project.IProjectDb col = Data.DB.GetProject();
+           
 
             TaskComment com = new TaskComment();
             com.TaskId = model.TaskId;
@@ -49,7 +56,8 @@ namespace Worky.Controllers
         }
         public IActionResult AddNewTask(int TaskStatusId)
         {
-            Data.Project.IProjectDb col = Data.DB.GetProject(); 
+           
+             
             Worky.Project.Task.TaskStatus st = col.GetTaskStatusById(TaskStatusId);
 
 
@@ -57,19 +65,17 @@ namespace Worky.Controllers
             t.CreationTime = DateTime.Now;
             t.TaskStatusId = TaskStatusId;
             t.ProjectId = st.ProjectId;
+            
             col.AddTask(t);
             return RedirectToAction("ProjectTasks","Tasks", new { ProjectId = st.ProjectId });
         }
         public IActionResult DeleteTask(int TaskId)
         {
-            Data.Project.IProjectDb col = Data.DB.GetProject();
+             
             Worky.Project.Task.Task task = col.GetTaskById(TaskId);
             task.Delete();
           
-         
 
-
-          
             return RedirectToAction("ProjectTasks", "Tasks", new { ProjectId = task.ProjectId });
 
         }

@@ -10,10 +10,10 @@ namespace Worky.Controllers
         Data.IIviteCollection Invites;
         Users.IUsersCollection Users;
         INotificationService notificationService;
-        public InviteController(Data.Project.ProjectDbContext invites, Data.Project.ProjectDbContext users,INotificationService s)
+        public InviteController(Data.Project.ProjectDbContext db,INotificationService s)
         {
-            Invites = invites;
-            Users = users;
+            Invites = db;
+            Users =db;
             notificationService = s;
         }
         [HttpGet]

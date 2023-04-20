@@ -1,17 +1,23 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Worky.Models.Calendar;
+using Worky.Data.Project;
 
 namespace Worky.Controllers
 {
     [Authorize]
     public class CallendarController : Controller
     {
-        public IActionResult Month(int pid,int month=-1,int year=-1)
+        IProjectDb col;
+        public CallendarController(Data.Project.ProjectDbContext context)
         {
+            col = context;
+        }
+        public IActionResult Month(int pid,int month=-1,int year=-1)
+        { 
             Worky.Users.User user = Worky.Users.User.GetUsrByEmail(User.Identity.Name);
 
-            Data.Project.IProjectDb col = Data.DB.GetProject();
+            
             Project.Project project = col.GetProject(pid);
             if (project == null)
             {

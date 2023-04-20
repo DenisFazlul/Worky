@@ -10,11 +10,11 @@ namespace Worky.Controllers
         Data.IIviteCollection Invites;
         Users.IUsersCollection Users;
         Data.Project.IProjectDb Projects;
-        public ProjectController(Data.Project.ProjectDbContext invites, Data.Project.ProjectDbContext users, Data.Project.ProjectDbContext projects)
+        public ProjectController(Data.Project.ProjectDbContext db)
         {
-            Invites = invites;
-            Users = users;
-            Projects = projects;
+            Invites = db;
+            Users = db;
+            Projects = db;
 
       }
         public IActionResult Index(int ProjectId)

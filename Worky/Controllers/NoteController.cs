@@ -1,14 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-
+using Worky.Data.Project;
 namespace Worky.Controllers
 {
     public class NoteController : Controller
     {
+        IProjectDb projectDb;
+        public NoteController(ProjectDbContext db)
+        {
+            projectDb= db;
+        }
         [HttpGet]
         public IActionResult EditNote(int NoteId)
         {
-            Data.Project.IProjectDb col = Data.DB.GetProject();
-            Project.Note note = col.GetNote(NoteId);
+           
+            Project.Note note = projectDb.GetNote(NoteId);
             Models.Project.NoteEditModel model = new Models.Project.NoteEditModel(note);
          
             return View(model);
@@ -17,10 +22,10 @@ namespace Worky.Controllers
         public IActionResult EditNote(Models.Project.NoteEditModel model)
         {
 
-            Data.Project.IProjectDb col = Data.DB.GetProject();
-            Project.Note note = col.GetNote(model.Id);
+             
+            Project.Note note = projectDb.GetNote(model.Id);
             note.SetData(model);
-            col.Update(note);
+            projectDb.Update(note);
             return RedirectToAction("ProjectNotes", "Notes", new { ProjectId = model.ProjectId });
         }
     }
