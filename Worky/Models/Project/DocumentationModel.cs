@@ -6,6 +6,7 @@ namespace Worky.Models.Project
     {
         public int PorjecId { get; set; }
         public List<Worky.Project.Documents.DocIerarhy> docIerarhies { get; set; }
+        public DocumentModel SelectedPage { get; set; }
         public DocumentationModel()
         {
             this.docIerarhies = new List<Worky.Project.Documents.DocIerarhy>();

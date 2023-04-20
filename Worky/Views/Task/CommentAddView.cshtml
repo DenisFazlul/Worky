@@ -1,0 +1,18 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@using Worky.Models.Project;
+
+@model CommentAddModel 
+
+<form  action="AddNewComment">
+        <input asp-for="@Model.TaskId" hidden />
+         
+        <div style="display:flex; flex-direction:column;">
+        <input asp-for="@Model.Content" class="form-control" style="height:8em;" placeholder="Ваш комментарий" />
+        <input style: type="submit" value="Отправить" class="Dbtn"/>
+        </div>
+      
+</form>
+@{
+}

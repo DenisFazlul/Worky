@@ -41,14 +41,15 @@ namespace Worky.Controllers
 
             return RedirectToAction("Edit", new { TaskId = task.Id });
         }
-        public IActionResult AddNewComment(Models.Project.EditTaskModel model)
+        public IActionResult AddNewComment(CommentAddModel model)
         {
-           
+
+            CurrentUser user = new CurrentUser(User);
 
             TaskComment com = new TaskComment();
             com.TaskId = model.TaskId;
-            com.Comment = model.EditComment.Comment;
-            com.UserId = model.CurUser.Id;
+            com.Comment = model.Content;
+            com.UserId = user.Id;
             com.DateTime = DateTime.Now;
             col.AddCommentToTask(com);
 

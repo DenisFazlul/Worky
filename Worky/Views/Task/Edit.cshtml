@@ -1,4 +1,5 @@
-﻿@model Worky.Models.Project.EditTaskModel
+﻿@using Worky.Models.Project;
+@model Worky.Models.Project.EditTaskModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -155,13 +156,15 @@
 
 
 
+
+
 <div class="blockPadding" >
     <h3>Комментарии</h3>
     <hr />
     <div style="overflow:auto;max-height:300px" >
 
-    
-    @foreach(Worky.Models.Project.CommentModel c in  @Model.CommentModels)
+   @Html.Partial("CommentsView",@Model.CommentModels)
+    @*@foreach(Worky.Models.Project.CommentModel c in  @Model.CommentModels)
     {
         
         <div class="list-group-item list-group-item-action py-3 lh-tight"  style="display:flex; flex-direction:column">
@@ -171,16 +174,10 @@
             <hr>
             <a>@c.DateTime</a>
         </div>
-    }
+    }*@
     </div>
-    <form class="blockPadding" action="AddNewComment">
-        <input asp-for="@Model.TaskId" hidden />
-        <input asp-for="@Model.CurUser.Id"  hidden/>
-        <div style="display:flex; flex-direction:column;">
-            <input asp-for="@Model.EditComment.Comment" class="form-control" style="height:5em;" placeholder="Ваш комментарий" />
-        <input style: type="submit" value="Отправить" class="Dbtn"/>
-        </div>
-      
-    </form>
+        
+    @Html.Partial("CommentAddView",new CommentAddModel(){TaskId=Model.TaskId})
+     
 </div>
 

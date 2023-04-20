@@ -22,7 +22,7 @@ namespace Worky.Data.Project
         public List<Worky.Project.Project> GetProjectsForUser(int userId);
         public List<Worky.Project.Note> GetNotes(int ProjectId);
         void RemoveTaskStatus(Worky.Project.Task.TaskStatus ts);
-        void AddDocument(Document doc);
+        
         List<Worky.Project.Task.TaskStatus> GetTaskStatuses(int id);
         void AddDocIerarhy(DocIerarhy ir);
         public Note GetNote(int id);

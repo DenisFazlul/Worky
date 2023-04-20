@@ -10,7 +10,7 @@ namespace Worky.Data.Project
     ///Add-Migration t2 -context ProjectDbContext
 
     ///Update-Database -context ProjectDbContext
-    public class ProjectDbContext : DbContext, IProjectDb,IdFilesDb,ITaskCommentsDb, IUsersCollection, IIviteCollection
+    public class ProjectDbContext : DbContext, IProjectDb,IdFilesDb,ITaskCommentsDb, IUsersCollection, IIviteCollection,IDocumentCollection
     {
        public DbSet<Worky.Project.Documents.DocIerarhy> DocIerarhies { get; set; }
         public DbSet<Worky.Project.Documents.Document> Documents { get; set; }
@@ -214,11 +214,7 @@ namespace Worky.Data.Project
             return irhs;
         }
 
-        public void AddDocument(Document doc)
-        {
-            this.Documents.Add(doc);
-            Save();
-        }
+        
 
         public void AddDocIerarhy(DocIerarhy ir)
         {
@@ -378,6 +374,16 @@ namespace Worky.Data.Project
         public Invite GetInvite(int Id)
         {
             return this.invites.Where(i => i.Id == Id).FirstOrDefault();
+        }
+
+        public Document GetDocById(int id)
+        {
+            return this.Documents.Where(i => i.Id == id).FirstOrDefault();
+        }
+        public void AddDocument(Document doc)
+        {
+            this.Documents.Add(doc);
+            Save();
         }
     }
 }

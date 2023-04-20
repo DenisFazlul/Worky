@@ -4,19 +4,22 @@
 @{
 }
 @model Worky.Project.Documents.DocIerarhy 
-<ul>
+ 
         @foreach (Worky.Project.Documents.DocIerarhy ir in Model.docIerarhies)
         {
                 
-                <div class="DCard">
+                <div >
                     <a>@ir.Id</a>
                     <a>@ir.ParrentId</a>
+                    <a>@ir.DocName</a>
                     <a href="/Documentation/Add?pid=@ir.ProjectId&&ParentId=@ir.Id">Add</a>
+                    <a href="/Documentation/Remove?DocIrId=@ir.Id&&projectId=@ir.ProjectId">del</a>
                 </div>
 
-               
-                @Html.Partial("TreeItem", ir)
+               <div style="padding-left:10px">
+                    @Html.Partial("TreeItem", ir)
+               </div>
             
          }
-       </ul>
+ 
 
