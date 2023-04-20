@@ -1,0 +1,104 @@
+﻿@model Worky.Models.Project.ProjectModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+<head>
+        
+      <link rel="stylesheet" href="~/css/ProjectMenu.css" />
+        <link rel="stylesheet" href="~/css/TextStyles.css" />
+         <script>
+            function OpenLink(link)
+            {
+               
+                location.href=link;
+                //window.open('/Project/Index?ProjectId='+id);
+            }
+        </script>
+</head>
+
+<div style="display:grid; grid-template-columns:1fr 90px; ">
+<h1 style="text-align:left;">@Model.Name</h1>
+<a  href="/Projects/EditProject?id=@Model.Id" class="Dbtn"style="color:black; text-align:right;" >Изменить</a>
+</div>
+
+<hr />  
+
+<div style="display:flex; gap:15px">
+    @if(Model.AllowAddInvites)
+    {
+    <a class="Dbtn" href="/Invite/Add?ProjectId=@Model.Id">Добавить пользователя</a>
+    }
+
+   
+    @foreach(Worky.Models.InviteModel i in @Model.Invites)
+    {
+   
+      <div class="Dbtn">
+           <a>@i.User.GetName()</a>
+            @if (@Model.AllowAddInvites)
+            {
+                <a href="/Invite/Remove?ProjectId=@Model.Id&&InviteId=@i.Id">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-square" viewBox="0 0 16 16">
+                  <path d="M14 1a1 1 0 0 1 1 1 v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                  <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                </svg>
+                
+            </a>
+            }
+      </div>
+   
+    }
+</div>
+<hr />
+
+<div>
+    
+    <dl class="row">
+        <dt class = "col-sm-2">
+           <input asp-for="Id" hidden />
+          
+        </dt>
+       
+    </dl>
+</div>
+<div>
+    <div class="DGrid ">
+        <div class="DgridCard DCard DCardPadding"  onclick="OpenLink('/Notes/ProjectNotes?ProjectId=@Model.Id')">
+            <div style="display:flex; flex-direction:column">
+            <a 
+            class="linkFont TextHeader" >
+            Заметки  
+            </a>
+                <a>Заметки для работы в команнде, запишите то что нужно не забыть</a>
+                </div>
+        </div>
+        <div class="DgridCard DCard DCardPadding" onclick="OpenLink('/Tasks/ProjectTasks?ProjectId=@Model.Id')">
+         <div style="display:flex; flex-direction:column">
+
+          
+            <a class="linkFont TextHeader" >Задачи</a>
+            <a>Доска для работы с задачами, создавайте таски, изменяйте их статус и взаимодействуйте с командой</a>
+             </div>
+        </div>
+        <div style="opacity:0,5;" class="DgridCard DCard DCardPadding" onclick="OpenLink('/Docs?pid=@Model.Id')" >
+              <div style="display:flex; flex-direction:column">
+            <a  class="linkFont TextHeader">Документация</a>
+             <a>Ведите документацию проекта, пишите инструкции, гайды, и прочие материалы для работы с проектом</a>
+             </div>
+        </div>
+        <div class="DgridCard DCard DCardPadding" onclick="OpenLink('/Callendar/Month?pid=@Model.Id')">
+              <div style="display:flex; flex-direction:column">
+            <a  class="linkFont TextHeader">Каледарь</a>
+            <a>Календарь для визуального отображения задач, ослеживайте когда задачи должны быть выполнены</a>
+            </div>
+        </div>
+    
+
+    </div>
+</div>
+
+
+
+<div></div>
+

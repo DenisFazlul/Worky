@@ -1,0 +1,53 @@
+﻿@model Worky.Models.Account.ChangePassModel
+
+@{
+    ViewData["Title"] = "ChangePass";
+}
+
+@{
+    Layout = "_Layout_Login";
+}
+
+<div class="bd">
+
+
+<div class="form-signin">
+
+<div class="row">
+    <div class="DCard">
+         <h2>Смена пароля</h2>
+         <hr />
+        <form asp-action="ChangePass">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group form-group_padding">
+                
+                <input asp-for="OldPass" class="form-control" placeholder="Старый пароль" />
+                <span asp-validation-for="OldPass" class="text-danger"></span>
+            </div>
+            <div class="form-group form-group_padding">
+              
+                <input asp-for="NewPass" class="form-control" placeholder="Новый пароль" />
+                <span asp-validation-for="NewPass" class="text-danger"></span>
+            </div>
+            <div class="form-group form-group_padding">
+               
+                <input asp-for="ConfirmPass" class="form-control" placeholder="Повторите пароль" />
+                <span asp-validation-for="ConfirmPass" class="text-danger"></span>
+            </div>
+            <div class="form-group form-group_padding">
+                <input type="submit" value="Изменить" class="Dbtn " style="width:100%" />
+            </div>
+            <div class="form-group form-group_padding">
+                 <a asp-action="Profile">К профилю</a>
+            </div>
+              
+        </form>
+    </div>
+</div>
+
+</div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

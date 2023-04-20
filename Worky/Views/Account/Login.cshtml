@@ -1,0 +1,92 @@
+﻿@model Worky.Models.Account.LoginModel
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+@{
+    Layout = "_Layout_Login";
+}
+<style>
+    .DFormSingIn{
+        margin:auto;
+        max-width:700px;
+        width:100%
+    }
+</style>
+
+<div class="bd">
+
+
+<div class="DFormSingIn">
+   
+
+
+
+<div class="row" style="text-align:center">
+  
+    <div style="display:grid; grid-template-columns:1fr 1fr" class="DCard">
+        
+        <div style=" padding:40px" >
+            <h2>О нас</h2>
+            <hr />
+            <div>
+                <a>Наши сервисы беслпаны, но они не заканчиваются на веб версиях, ознакомтесь 
+                    с нашими продуктами детально
+                </a>
+                <br />
+                <br />
+                <a sty class="Dbtn">
+                    Подронее
+                </a>
+            </div>
+        </div>
+         <div   style=" padding:40px">
+            <h2>Войти</h2>
+            <hr />
+            <form asp-action="Login">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group form-group_padding ">
+                
+                
+                    <input asp-for="Email"  class="form-control" placeholder="name@example.com"  />
+                    <span asp-validation-for="Email" ></span>
+                </div>
+                <div class="form-group form-group_padding">
+                
+                    <input asp-for="Password" class="form-control" placeholder="Passward1234" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="form-group form-group_padding">
+                    <input type="submit" value="Войти" class="Dbtn" style="width:100%" />
+                </div>
+                <div class="form-group form-group_padding">
+                    <a asp-action="SentPass">Напомнить пароль</a>
+                <a asp-action="Registration">Регистрация</a>
+                </div>
+            </form>
+         </div>
+
+    </div>
+    <div>
+       
+  
+</div>
+</div>
+
+
+</div>
+</div>
+
+
+
+
+    
+  
+
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

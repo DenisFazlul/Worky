@@ -1,0 +1,20 @@
+﻿body {
+}
+.linkFont {
+    
+    text-decoration: none;
+    color: black;
+    font-weight: 600;
+}
+.linkFont:hover {
+        
+        text-decoration: none;
+        color: red;
+        font-weight: 600;
+}
+.DefaultText {
+    
+}
+.TextHeader {
+    font-size: 1.5em;
+}

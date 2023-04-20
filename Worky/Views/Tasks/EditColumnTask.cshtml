@@ -1,0 +1,52 @@
+﻿
+@{
+    ViewData["Title"] = "EditColumnTask";
+}
+
+
+@model Worky.Models.Project.ShowAllTaskStatusModel
+
+<head>
+    <style>
+    .TaskGrid{
+        display:flex;
+        flex-direction:row;
+        gap:15px;
+        
+    }
+    .TaskColum{
+        display:flex;
+        flex-direction:column;
+        gap:3px;
+        width:300px;
+        
+    }
+</style>
+</head>
+   
+<div style="display:grid; gap:10px">
+
+
+<h2>Столбцы доски</h2>
+<a class="Dbtn" style="width:100px" href=/Tasks/ProjectTasks?ProjectId=@Model.ProjectId>К проекту</a>
+
+<div class="TaskGrid" >
+    
+    @foreach(Worky.Project.Task.TaskStatus st in @Model.TaskStatuses)
+    {
+     
+       <div class=" DCard" style="display:grid; padding:20px;"> 
+            <a >@st.Name</a>
+            <div style="display:flex">
+                  <a href="/Tasks/DeleteTaskStatus?id=@st.Id" class="Dbtn">Удалить</a>
+            <a href="/Tasks/EditTaskStatus?id=@st.Id" class="Dbtn" >Изменить</a>
+            </div>
+            
+        </div>
+      
+    }
+    <div class="DCard">
+        <a href="/Tasks/AddNewTaskStatusId?ProjectId=@Model.ProjectId" class="Dbtn">Добавить</a>
+    </div>
+</div>
+</div>

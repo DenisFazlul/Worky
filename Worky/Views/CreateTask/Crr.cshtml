@@ -1,0 +1,106 @@
+﻿@model Worky.Models.CreateTaskModel
+
+@{
+    ViewData["Title"] = "Crr";
+}
+
+<head>
+    <style>
+        .blockPadding{
+            padding-top:5em;
+            
+        }
+    </style>
+     <link rel="stylesheet" href="~/css/EditCard.css" asp-append-version="true" />
+      <link rel="stylesheet" href="~/css~/css/site.css" asp-append-version="true" />
+      <script>
+          function RemoveFile(id)
+          {
+              var ElmId='TaskFile-'+id;
+              alert(id);
+              var elm=document.getElementById(ElmId);
+             
+
+            var xhr = new XMLHttpRequest();
+
+            
+
+            xhr.open("POST", '/Files/RemoveTaskFile?TaskFileId='+id, true);
+
+        
+
+            xhr.send();
+
+              elm.remove();
+
+             
+             
+          }
+      </script>
+
+</head>
+
+<h4>Создание карточки</h4>
+<hr />
+
+        <form asp-action="AddToDb" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="EditCardGrid">
+                <div>
+                        <div class="form-group">
+               
+                            <input asp-for="BackLink" class="form-control" hidden />
+                            <span asp-validation-for="BackLink" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+               
+                            <input asp-for="ProjectId" class="form-control" hidden />
+                            <span asp-validation-for="ProjectId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+               
+                            <input asp-for="TaskId" class="form-control" hidden />
+                            <span asp-validation-for="TaskId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Name" class="control-label"></label>
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Description" class="control-label"></label>
+                         <textarea  asp-for="Description" style="height:300px; width:100%" name="Description" class="form-control"></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                    </div>
+                <div>
+                    
+                    <div class="form-group">
+                        <label asp-for="Start" class="control-label"></label>
+                        <input asp-for="Start" class="form-control" />
+                        <span asp-validation-for="Start" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="End" class="control-label"></label>
+                        <input asp-for="End" class="form-control" />
+                        <span asp-validation-for="End" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label  class="control-label">Файлы</label>
+                        <input name="files" type="file" multiple class="form-control" />
+                
+                    </div>
+       
+                   
+                </div>
+            </div>
+            <hr />
+              <input type="submit" value="Создать" class="Dbtn" style="width:100%" />
+           
+            
+          
+        </form>
+   
+
+
+

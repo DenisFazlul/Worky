@@ -1,0 +1,79 @@
+﻿@model Worky.Models.Project.TasksModel
+
+@{
+    ViewData["Title"] = "ProjectTasks";
+}
+<head>
+    <style>
+    .TaskGrid{
+        display:flex;
+        flex-direction:row;
+        gap:15px;
+        overflow:auto;
+        
+    }
+    .TaskColum{
+        display:flex;
+        flex-direction:column;
+        gap:3px;
+        width:300px;
+        
+    }
+    
+</style>
+</head>
+
+<h1>Доска проекта</h1>
+<div style="display:flex; flex-direction:row; flex-wrap:wrap; column-gap:6px; row-gap:5px;">
+
+
+    <a href="~/Project/Index?ProjectId=@Model.ProjectId" class="Dbtn">Назад</a>
+    <a href="/CreateTask/Create?ProjectId=@Model.ProjectId" class="Dbtn">Добавить задачу</a>
+    <a href="/Tasks/EditColumnTask?ProjectId=@Model.ProjectId" class="Dbtn">
+        Настройки доски
+    </a>
+    <a href="/Callendar/Month?pid=@Model.ProjectId" class="Dbtn">Каледнарь</a>
+</div>
+<hr />
+
+
+
+<div class="TaskGrid">
+
+
+    @foreach(Worky.Project.Task.TaskStatus ts in @Model.Statuses)
+    {
+    
+            <div class="TaskColum">
+                <a class="DCard" style="padding:20px; color:black; text-decoration:none"  >@ts.Name</a>
+
+              @*  <a href="/Tasks/AddNewTask?TaskStatusId=@ts.Id">Добавить задачу</a>*@
+            
+                @foreach(Worky.Project.Task.Task t in ts.Tasks)
+                {
+                
+                        <dvi class="DCard " style="padding:20px">
+                            <div>
+                                <div style="display:grid;grid-template-columns: 1fr 30px;">
+                                    <h4>@t.Name</h4>
+
+                                     <a href="/Task/Edit?TaskId=@t.Id" class="Dbtn"  style="width:35px">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+                                    <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/>
+                                    </svg>
+                                </a>
+                                </div>
+                                 <div style="display:flex; flex-direction: column;">
+                                      <a>@t.GetShortDescription()</a>
+                       
+                                       <a>@t.CreationTime</a>
+                                 </div>
+                       
+                            </div>
+                       
+                        </dvi>
+                }
+            </div>
+    }
+
+</div>

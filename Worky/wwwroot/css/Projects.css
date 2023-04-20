@@ -1,0 +1,48 @@
+﻿body {
+}
+@media (min-width: 1024px) {
+    /* DESKTOP */
+    .DefGrid {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+    }
+    .DefWorkSpace {
+        margin: 50px;
+    }
+    .DCardSize {
+        min-width:350px;
+    }
+}
+@media (min-width: 425px) and (max-width: 1024px) {
+    /* TABLET */
+    .DefGrid {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+    }
+    .DefWorkSpace{
+        margin:50px;
+    }
+    .DCardSize {
+    }
+
+
+}
+@media (max-width: 425px) {
+    /* MOBILE */
+    .DefGrid {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+    }
+    .DefWorkSpace {
+        margin: 5px;
+    }
+    .DCardSize{
+
+    }
+}
+
+
+

@@ -1,0 +1,50 @@
+﻿
+    @media (min-width: 1024px) {
+        /* DESKTOP */
+
+        .DgridCard {
+            height: 200px;
+            max-width: 24em;
+            margin: 10px;
+            width: 100%;
+        }
+
+        .DGrid {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap
+        }
+    }
+
+    @media (min-width: 425px) and (max-width: 1024px) {
+        /* TABLET */
+        .DgridCard {
+            height: 200px;
+            max-width: 24em;
+            margin: 10px;
+            width: 100%;
+        }
+
+        .DGrid {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap
+        }
+    }
+
+    @media (max-width: 425px) {
+        /* MOBILE */
+        .DgridCard {
+            
+            max-width: 24em;
+            margin: 10px;
+            width: 100%;
+        }
+
+        .DGrid {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap
+        }
+    }
+

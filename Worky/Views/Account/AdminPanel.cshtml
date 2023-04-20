@@ -1,0 +1,21 @@
+﻿@model Worky.Models.Account.AdminPageModel
+
+@{
+    ViewData["Title"] = "AdminPanel";
+}
+
+<h1>AdminPanel</h1>
+
+<div>
+    <h4>AdminPageModel</h4>
+    <hr />
+    <dl class="row">
+    </dl>
+</div>
+<div>
+    @foreach(Worky.Users.User user in Model.users)
+    {
+        <a>@user.Email @user.Pass</a>
+    }
+    
+</div>

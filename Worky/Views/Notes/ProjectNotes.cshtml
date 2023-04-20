@@ -1,0 +1,47 @@
+﻿@model Worky.Models.Project.NotesModel
+
+@{
+    ViewData["Title"] = "ProjectNotes";
+}
+
+<style>
+    .DGrid{
+        display:flex;
+        gap:10px;
+        flex-wrap:wrap;
+    }
+    
+</style>
+
+<h1>Заметки</h1>
+<hr />
+
+<div>
+
+     <a href="~/Project/Index?ProjectId=@Model.ProjectId" class="Dbtn">Назад</a>
+    <a href="/Notes/AddNote?ProjectId=@Model.ProjectId" class="Dbtn">Добавить заметку</a>
+    
+</div>
+<div class="DGrid ">
+    @{
+        foreach(Worky.Project.Note n in Model.Notes)
+        {
+           
+            <div class="DCard DCardPadding ">
+           
+                <div style="display:grid; gap:10px">
+     
+                    <h4>@n.Name</h4>
+                    <a>@n.GetShortDescription()</a>
+                    <div>
+                        <a href="/Note/EditNote?NoteId=@n.Id" class="Dbtn" >Изменить</a>
+                        <a href="/Notes/DeleteNote?ProjectId=@Model.ProjectId&&NotId=@n.Id" class="Dbtn">Удалить</a>
+                    </div>
+            
+                </div>
+            </div>
+        }
+    }
+</div>
+
+

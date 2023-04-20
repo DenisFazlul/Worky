@@ -1,0 +1,66 @@
+﻿
+@{
+    ViewData["Title"] = "YourProjects";
+}
+
+
+<head>
+    <link rel="stylesheet" href="~/css/Projects.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/ProjectMenu.css" />
+        <link rel="stylesheet" href="~/css/TextStyles.css" />
+        <script>
+            function OpenProject(id)
+            {
+                
+                location.href='/Project/Index?ProjectId='+id;
+                //window.open('/Project/Index?ProjectId='+id);
+            }
+        </script>
+</head>
+
+
+@model Worky.Models.Project.UserProjectsModel
+
+<div class="DefWorkSpace">
+    <h1>Ваши проекты</h1>
+    <hr />
+
+    <div class="DefGrid">
+            <div class="DCard DCardSize DCardPadding">
+                <h4>Новый проект</h4>
+                <a href="/Projects/AddProject">Нажмите что бы добавить новый проект</a>
+            </div>
+
+            @foreach(Worky.Models.Project.ProjectModel pr in Model.UserProject)
+            {
+                <div class="DCard DCardSize DCardPadding" style="max-width:24em;" onclick="OpenProject('@pr.Id')">
+                    <h4>@pr.Name</h4>
+                    <p>@pr.Description</p>
+                   
+                </div>
+    
+    
+            }
+    </div>
+    
+    <h1>Вы приглашены в проекты</h1>
+        <hr />
+     <div class="DefGrid">
+            
+
+            @foreach(Worky.Models.Project.ProjectModel pr in Model.InvitesProject)
+            {
+                <div class="DCard DCardSize DCardPadding" style="max-width:24em;" onclick="OpenProject('@pr.Id')">
+                    <h4>@pr.Name</h4>
+                    <p>@pr.Description</p>
+                    <div>
+                        <a>Владелец:</a>
+                          <a>@pr.Owner.GetName()</a>
+                    </div>
+                 
+                </div>
+    
+    
+            }
+    </div>
+</div>

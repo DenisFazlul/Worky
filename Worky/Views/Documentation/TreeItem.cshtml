@@ -1,0 +1,22 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model Worky.Project.Documents.DocIerarhy 
+<ul>
+        @foreach (Worky.Project.Documents.DocIerarhy ir in Model.docIerarhies)
+        {
+                
+                <div class="DCard">
+                    <a>@ir.Id</a>
+                    <a>@ir.ParrentId</a>
+                    <a href="/Documentation/Add?pid=@ir.ProjectId&&ParentId=@ir.Id">Add</a>
+                </div>
+
+               
+                @Html.Partial("TreeItem", ir)
+            
+         }
+       </ul>
+

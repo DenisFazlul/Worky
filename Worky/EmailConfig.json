@@ -1,0 +1,9 @@
+{
+  "emailConfig": {
+    "Elogin": "qq",
+    "Eemail": "qq",
+    "Epass": "qq",
+    "Esmtp": "qq",
+    "Eport": "25"
+  }
+}

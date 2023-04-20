@@ -1,0 +1,48 @@
+﻿@model Worky.Models.Account.ConfirmCodeModels
+
+@{
+    ViewData["Title"] = "ConfrimCode";
+}
+@{
+    Layout = "_Layout_Login";
+}
+
+<div class="bd">
+
+
+<div class="form-signin">
+
+<div class="row">
+     <div class="DCard">
+         <h2>Подтверждение аккаунта</h2>
+         <hr />
+        <form asp-action="ConfrimCode">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group form-group_padding">
+                <label asp-for="Email"  class="control-label" hidden></label>
+                <input asp-for="Email" class="form-control" hidden />
+                <span asp-validation-for="Email" class="text-danger" hidden></span>
+            </div>
+            <div class="form-group form-group_padding">
+               
+                <input asp-for="Code" class="form-control" placeholder="Код подтверждения" />
+                <span asp-validation-for="Code" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+               
+                <a>@Model.ErrorMsg</a>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="Dbtn" style="width:100%" />
+            </div>
+        </form>
+    </div>
+</div>
+
+</div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
