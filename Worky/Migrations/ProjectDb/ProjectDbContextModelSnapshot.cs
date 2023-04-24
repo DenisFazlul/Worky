@@ -72,7 +72,7 @@ namespace Worky.Migrations.ProjectDb
                     b.ToTable("DFiles");
                 });
 
-            modelBuilder.Entity("Worky.Project.Documents.DocIerarhy", b =>
+            modelBuilder.Entity("Worky.Project.Documents.DocumentationBook", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -80,21 +80,19 @@ namespace Worky.Migrations.ProjectDb
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("DocId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ParrentId")
-                        .HasColumnType("int");
+                    b.Property<string>("Json")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ProjectId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.ToTable("DocIerarhies");
+                    b.ToTable("DocumentationBooks");
                 });
 
-            modelBuilder.Entity("Worky.Project.Documents.Document", b =>
+            modelBuilder.Entity("Worky.Project.Documents.DocumentPage", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -102,13 +100,42 @@ namespace Worky.Migrations.ProjectDb
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("BookId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("ParrentId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Documents");
+                    b.ToTable("Pages");
+                });
+
+            modelBuilder.Entity("Worky.Project.Invite", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserEmail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("invites");
                 });
 
             modelBuilder.Entity("Worky.Project.Note", b =>
@@ -272,6 +299,41 @@ namespace Worky.Migrations.ProjectDb
                     b.HasKey("Id");
 
                     b.ToTable("TimeDatas");
+                });
+
+            modelBuilder.Entity("Worky.Users.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("ConfirmCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsBlock")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Pass")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Worky.Models.Project.TaskFile", b =>

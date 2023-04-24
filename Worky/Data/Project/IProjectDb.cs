@@ -13,7 +13,7 @@ namespace Worky.Data.Project
         public void DeleteProject(Worky.Project.Project p);
         Worky.Project.Task.Task GetTaskById(int taskId);
        List<Worky.Project.Task.Task> GetTaskByDay(DateTime date,int ProjectId);
-        List<DocIerarhy> GetPagesForProject(int pid);
+         
         public void Update(Worky.Project.Project p);
         List<TaskComment> GetTaskCommentsByTaskId(int id);
         public void Update(Note note);
@@ -24,7 +24,7 @@ namespace Worky.Data.Project
         void RemoveTaskStatus(Worky.Project.Task.TaskStatus ts);
         
         List<Worky.Project.Task.TaskStatus> GetTaskStatuses(int id);
-        void AddDocIerarhy(DocIerarhy ir);
+       // void AddDocIerarhy(DocIerarhy ir);
         public Note GetNote(int id);
         void AddNote(Note note);
         void RemoveNote(int notId);

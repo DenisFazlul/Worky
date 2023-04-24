@@ -2,29 +2,28 @@
 
 #nullable disable
 
-namespace Worky.Migrations.ProjectDb
+namespace Worky.Migrations
 {
-    public partial class Pages : Migration
+    public partial class addpagesanddocs : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "DocIerarhies",
+                name: "DocumentationBooks",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ParrentId = table.Column<int>(type: "int", nullable: false),
                     ProjectId = table.Column<int>(type: "int", nullable: false),
-                    DocId = table.Column<int>(type: "int", nullable: false)
+                    Json = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DocIerarhies", x => x.Id);
+                    table.PrimaryKey("PK_DocumentationBooks", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Documents",
+                name: "Pages",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -33,17 +32,17 @@ namespace Worky.Migrations.ProjectDb
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Documents", x => x.Id);
+                    table.PrimaryKey("PK_Pages", x => x.Id);
                 });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "DocIerarhies");
+                name: "DocumentationBooks");
 
             migrationBuilder.DropTable(
-                name: "Documents");
+                name: "Pages");
         }
     }
 }

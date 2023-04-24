@@ -1,0 +1,36 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@using Worky.Models.DocModels;
+
+@model PageModel
+@{
+}
+
+<div style="padding-left:10px">
+    <div>
+        <a>@Model.Id</a>
+        <a style="color:@GetSelString(@Model)" href="~/Documentation/Watch?bookId=@Model.bookId&selectedPage=@Model.Id">@Model.Name</a>
+        <a href="~/Documentation/AddPage?ParrentPageId=@Model.Id">add</a>
+        <a href="~/Documentation/RemovePage?PageId=@Model.Id"> del</a>
+    </div>
+    
+    @foreach(PageModel child in @Model.Pages.ToList())
+    {
+        @Html.Partial("PageTreeItem",child)
+    }
+</div>
+
+@{
+    string GetSelString(PageModel model)
+    {
+        if(model.IsSelected)
+        {
+            return "red";
+        }
+        else
+        {
+            return "";
+        }
+    }
+}

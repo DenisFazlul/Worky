@@ -1,69 +1,128 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Worky.Data.Project;
-using Worky.Models.Project;
+using Worky.Project.Documents;
+using Worky.Models.DocModels;
 namespace Worky.Controllers
 {
     public class DocumentationController : Controller
     {
-        IDocumentCollection docDb;
-        IProjectDb projectDB;
-        public DocumentationController(ProjectDbContext context)
+        IDocmentationDB docDB;
+        public DocumentationController(ProjectDbContext db)
         {
-            projectDB = context;
-            docDb = context;
+            docDB = db;
         }
-        public IActionResult Pages(int ProjectId,int seletedPageId=0)
-        {
-             DocumentationModel model=new  DocumentationModel();
-            List<Project.Documents.DocIerarhy> pagesIerarhy = projectDB.GetPagesForProject(ProjectId);
-            model.SetIerarhy(pagesIerarhy);
-            model.PorjecId = ProjectId;
-
-            DocumentModel pageModel = new DocumentModel();
-            model.SelectedPage = pageModel;
-            if(seletedPageId!=0)
-            {
-                pageModel.Document = docDb.GetDocById(seletedPageId);
-            }
-            
-          
-            return View(model);
-        }
-        public IActionResult Add(int pid,int ParentId)
-        {
-             
-            Worky.Project.Documents.DocIerarhy ir = new Project.Documents.DocIerarhy();
-            ir.ProjectId = pid;
-            ir.ParrentId = ParentId;
-
-            Project.Documents.Document doc = new Project.Documents.Document();
-            doc.Name = "New";
-            docDb.AddDocument(doc);
-            ir.DocId = doc.Id;
-            projectDB.AddDocIerarhy(ir);
-            return RedirectToAction("Pages", new { pid = pid });
-        }
-        public IActionResult Remove(int DocIrId,int projectId)
-        {
-
-
-            return RedirectToAction("Pages", new { pid = projectId });
-        }
-        public IActionResult ProjectPages(int pid)
+        public IActionResult Index()
         {
             return View();
         }
-
-        [HttpGet]
-        public Models.Project.DocumentationModel GetPages(int pid)
+        public IActionResult ProjDoc(int ProjectId)
         {
-            Models.Project.DocumentationModel model = new Models.Project.DocumentationModel();
             
-            model.PorjecId = pid;
-            model.SetIerarhy(projectDB.GetPagesForProject(pid));
-            return model;
+            DocumentationBook book = docDB.GetBookFroProject(ProjectId);
+         
             
+            if(book==null)
+            {
+                book = docDB.CreateDocBookForProject(ProjectId);
+               
+                
+            }
+
+            List<DocumentPage> pages = docDB.GetPagesForbook(book.Id);
+           
+
+            return RedirectToAction("Watch",new { bookId = book.Id });
         }
-    
+       
+        public IActionResult Watch(int bookId,int selectedPage=0)
+        {
+            DocumentationBook exist= docDB.GetBookByid(bookId);
+            if (exist == null)
+            {
+                return Content("no exist");
+            }
+            
+            DocumentationModel model = new DocumentationModel();
+            
+            List<DocumentPage> pages=docDB.GetPagesForbook(bookId);
+            List<PageModel> PagesModels = PageModelConverter.Convert(pages);
+
+            PagesModelsSorter sorter = new PagesModelsSorter();
+            
+            sorter.Sort(PagesModels);
+
+
+            model.BookModel = new BookModel();
+            model.BookModel.Id = bookId;
+            model.BookModel.StartPage = sorter.BasePage;
+
+            if(selectedPage!=0)
+            {
+                PageModel sel=PagesModels.Where(i=>i.Id==selectedPage).FirstOrDefault();
+                sel.IsSelected = true;
+                model.SelectedPage = new SelectedPageModel();
+
+                DocumentPage selectedDocPage=pages.Where(i=>i.Id==selectedPage).FirstOrDefault();
+                model.SelectedPage.SetFromPage(selectedDocPage);
+                
+                
+            }
+            
+
+
+            return View(model);
+
+        }
+        
+       
+        public IActionResult RemovePage(int PageId)
+        {
+            DocumentPage existPage = docDB.GetPage(PageId);
+            int bookId = existPage.BookId;
+
+            List<DocumentPage> pages = docDB.GetPagesForbook(bookId);
+            List<PageModel> PagesModels = PageModelConverter.Convert(pages);
+
+            PagesModelsSorter sorter = new PagesModelsSorter();
+
+            sorter.Sort(PagesModels);
+            PageModel basePage = PagesModels.Where(i => i.Id == PageId).FirstOrDefault();
+            List<int> reomveIds= basePage.GetChildsIds();
+            reomveIds.Add(PageId);
+            foreach(int reomveId in reomveIds)
+            {
+                docDB.RemovePage(reomveId);
+            }
+            // docDB.RemovePage(PageId);
+
+
+
+            return RedirectToAction("Watch", new { bookId = bookId});
+        }
+        public IActionResult AddBasePage(int bookId)
+        {
+            DocumentPage nPAge = new DocumentPage();
+            nPAge.BookId = bookId;
+            nPAge.ParrentId = 0;
+            nPAge.Name = "BasePage";
+            docDB.AddPage(nPAge);
+            return RedirectToAction("Watch", new { bookId = bookId });
+        }
+         
+        public IActionResult AddPage(int ParrentPageId)
+        {
+            int bookId = 0;
+
+
+            DocumentPage parrent= docDB.GetPage(ParrentPageId);
+            DocumentPage nPage = new DocumentPage();
+            nPage.ParrentId = parrent.Id;
+            nPage.BookId = parrent.BookId;
+            docDB.AddPage(nPage);
+            
+
+
+            return RedirectToAction("Watch",new {bookId= parrent.BookId, selectePageId = nPage.Id});
+        }
     }
 }

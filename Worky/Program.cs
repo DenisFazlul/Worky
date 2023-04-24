@@ -23,8 +23,7 @@ Worky.DataDB.connectionStrinProjectDb = connectionStringProjectDb;
 
 builder.Services.AddSingleton<INotificationService,EmailNotifyService>();
 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionStringProjectDb));
+ 
 
 
 builder.Services.AddDbContext<Worky.Data.Project.ProjectDbContext>(options =>
@@ -38,8 +37,7 @@ builder.Services.AddJsEngineSwitcher(options => options.DefaultEngineName = Chak
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+
 
 builder.Services.AddMvc();
 builder.Services.AddControllersWithViews();
@@ -72,7 +70,7 @@ else
     app.UseHsts();
 }
 
-app.UseReact(config => { });
+
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

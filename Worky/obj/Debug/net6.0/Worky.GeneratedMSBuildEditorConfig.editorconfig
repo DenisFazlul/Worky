@@ -19,10 +19,6 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/denis/source/repos/Worky/Worky/Pages/Docs.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRG9jcy5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/denis/source/repos/Worky/Worky/Views/Account/AdminPanel.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxBZG1pblBhbmVsLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -75,20 +71,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3JlYXRlVGFza1xDcnIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/denis/source/repos/Worky/Worky/Views/Documentation/DocumentPageView.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRG9jdW1lbnRhdGlvblxEb2N1bWVudFBhZ2VWaWV3LmNzaHRtbA==
+[C:/Users/denis/source/repos/Worky/Worky/Views/Documentation/DetailPageView.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRG9jdW1lbnRhdGlvblxEZXRhaWxQYWdlVmlldy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/denis/source/repos/Worky/Worky/Views/Documentation/Pages.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRG9jdW1lbnRhdGlvblxQYWdlcy5jc2h0bWw=
+[C:/Users/denis/source/repos/Worky/Worky/Views/Documentation/PageTreeItem.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRG9jdW1lbnRhdGlvblxQYWdlVHJlZUl0ZW0uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/denis/source/repos/Worky/Worky/Views/Documentation/ProjectPages.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRG9jdW1lbnRhdGlvblxQcm9qZWN0UGFnZXMuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/denis/source/repos/Worky/Worky/Views/Documentation/TreeItem.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRG9jdW1lbnRhdGlvblxUcmVlSXRlbS5jc2h0bWw=
+[C:/Users/denis/source/repos/Worky/Worky/Views/Documentation/Watch.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRG9jdW1lbnRhdGlvblxXYXRjaC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/denis/source/repos/Worky/Worky/Views/Files/AddTaskFile.cshtml]
