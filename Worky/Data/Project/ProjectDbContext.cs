@@ -431,6 +431,14 @@ namespace Worky.Data.Project
         {
             return this.Pages.Where(i => i.BookId == BookId).ToList();
         }
+
+        public void UpdatePage(DocumentPage page)
+        {
+            DocumentPage exist = GetPage(page.Id);
+            exist.Name = page.Name;
+            exist.Description = page.Description;
+            this.SaveChanges();
+        }
         #endregion
     }
 }

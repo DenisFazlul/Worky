@@ -13,6 +13,6 @@ namespace Worky.Data.Project
         public DocumentPage AddPage(DocumentPage page);
         public void RemovePage(int PageId);
         public DocumentPage GetPage(int id);
-
+        void UpdatePage(DocumentPage page);
     }
 }

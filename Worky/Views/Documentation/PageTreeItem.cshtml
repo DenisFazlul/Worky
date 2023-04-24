@@ -7,12 +7,19 @@
 @{
 }
 
-<div style="padding-left:10px">
-    <div>
-        <a>@Model.Id</a>
+<div style="padding-left:1em">
+    <div class="tree-item"  >
+        
+        
         <a style="color:@GetSelString(@Model)" href="~/Documentation/Watch?bookId=@Model.bookId&selectedPage=@Model.Id">@Model.Name</a>
-        <a href="~/Documentation/AddPage?ParrentPageId=@Model.Id">add</a>
-        <a href="~/Documentation/RemovePage?PageId=@Model.Id"> del</a>
+        
+        
+       
+         <a href="~/Documentation/AddPage?ParrentPageId=@Model.Id">
+             +</a>
+          
+        
+     
     </div>
     
     @foreach(PageModel child in @Model.Pages.ToList())

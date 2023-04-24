@@ -39,39 +39,90 @@ namespace Worky.Controllers
             DocumentationBook exist= docDB.GetBookByid(bookId);
             if (exist == null)
             {
-                return Content("no exist");
+                Models.Message msg = new Models.Message();
+
+                msg.Content = "Документации не существует";
+                msg.BackUrl = "/";
+                msg.Header = "Не найден";
+                msg.UrlName = "К проектам";
+                return View("Message", msg);
+               
             }
             
+
             DocumentationModel model = new DocumentationModel();
             
-            List<DocumentPage> pages=docDB.GetPagesForbook(bookId);
-            List<PageModel> PagesModels = PageModelConverter.Convert(pages);
-
-            PagesModelsSorter sorter = new PagesModelsSorter();
             
-            sorter.Sort(PagesModels);
 
-
-            model.BookModel = new BookModel();
-            model.BookModel.Id = bookId;
-            model.BookModel.StartPage = sorter.BasePage;
-
+            model.BookModel = GetBookMode(bookId);
+          
+            List<Task> tasks = new List<Task>();
             if(selectedPage!=0)
             {
-                PageModel sel=PagesModels.Where(i=>i.Id==selectedPage).FirstOrDefault();
-                sel.IsSelected = true;
-                model.SelectedPage = new SelectedPageModel();
 
-                DocumentPage selectedDocPage=pages.Where(i=>i.Id==selectedPage).FirstOrDefault();
-                model.SelectedPage.SetFromPage(selectedDocPage);
+                Task t1= Task.Factory.StartNew(() =>
+                {
+                    model.BookModel.SetSelectedModel(selectedPage);
+                });
+                tasks.Add(t1);
+                Task t2= Task.Factory.StartNew(() =>
+                {
+                    DocumentPage selectedDocPage = docDB.GetPage(selectedPage);
+                    model.SelectedPage = new SelectedPageModel();
+                    model.SelectedPage.SetFromPage(selectedDocPage);
+                });
+                tasks.Add(t2);
+
+                Task t3 = Task.Factory.StartNew(() => 
+                { 
+                    ///loading docs for selected page
+                });
+ 
                 
                 
             }
-            
 
 
+            Task.WaitAll(tasks.ToArray());
             return View(model);
 
+        }
+        public static List<BookModel> bookModelsCache = new List<BookModel>();
+
+        
+        public BookModel GetBookMode(int bookId)
+        {
+            BookModel exist = bookModelsCache.Where(i => i.Id == bookId).FirstOrDefault();
+            if(exist==null)
+            {
+                exist = Create(bookId);
+
+                bookModelsCache.Add(exist);
+
+            }
+            return exist;
+        }
+        public BookModel Create(int bookId)
+        {
+            BookModel exist = new BookModel();
+
+            List<DocumentPage> pages = docDB.GetPagesForbook(bookId);
+            exist.AllPages = PageModelConverter.Convert(pages);
+
+            PagesModelsSorter sorter = new PagesModelsSorter();
+
+            sorter.Sort(exist.AllPages);
+            
+            exist.StartPage = sorter.BasePage;
+            exist.Id = bookId;
+            return exist;
+        }
+        public void UpdateInCache(int bookId)
+        {
+            BookModel exist=bookModelsCache.Where(i=>i.Id==bookId).FirstOrDefault();
+            bookModelsCache.Remove(exist);
+            BookModel nBm = Create(exist.Id);
+            bookModelsCache.Add(nBm);
         }
         
        
@@ -95,7 +146,7 @@ namespace Worky.Controllers
             }
             // docDB.RemovePage(PageId);
 
-
+            UpdateInCache(bookId);
 
             return RedirectToAction("Watch", new { bookId = bookId});
         }
@@ -106,23 +157,28 @@ namespace Worky.Controllers
             nPAge.ParrentId = 0;
             nPAge.Name = "BasePage";
             docDB.AddPage(nPAge);
-            return RedirectToAction("Watch", new { bookId = bookId });
+            return RedirectToAction("Watch", new { bookId = bookId, selectedPage=nPAge.Id });
         }
          
         public IActionResult AddPage(int ParrentPageId)
         {
-            int bookId = 0;
-
-
-            DocumentPage parrent= docDB.GetPage(ParrentPageId);
-            DocumentPage nPage = new DocumentPage();
-            nPage.ParrentId = parrent.Id;
-            nPage.BookId = parrent.BookId;
-            docDB.AddPage(nPage);
             
 
 
-            return RedirectToAction("Watch",new {bookId= parrent.BookId, selectePageId = nPage.Id});
+            DocumentPage parrent= docDB.GetPage(ParrentPageId);
+            List<DocumentPage> pages = docDB.GetPagesForbook(parrent.BookId);
+
+            DocumentPage nPage = new DocumentPage();
+            nPage.Name = $"New Page ({pages.Count+1})";
+            nPage.ParrentId = parrent.Id;
+            nPage.BookId = parrent.BookId;
+            docDB.AddPage(nPage);
+
+            UpdateInCache(parrent.BookId);
+
+            return RedirectToAction("Watch",new {bookId= parrent.BookId, selectedPage = nPage.Id});
         }
+
+        
     }
 }

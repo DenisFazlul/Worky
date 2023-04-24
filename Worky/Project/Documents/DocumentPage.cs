@@ -9,6 +9,7 @@ namespace Worky.Project.Documents
          
         public int ParrentId { get; set; }
         public int BookId { get; set; }
+        public string Description { get; set; } = "Short description";
 
     }
 }
