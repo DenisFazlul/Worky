@@ -2,16 +2,19 @@
 using Worky.Data.Project;
 using Worky.Models.DocModels;
 using Worky.Project.Documents;
+using Worky.Services;
 
 namespace Worky.Controllers
 {
     public class DocEditController : Controller
     {
         IDocmentationDB docDB;
-
-        public DocEditController(ProjectDbContext db)
+        IBookCashe bookCashe;
+        public DocEditController(ProjectDbContext db, IBookCashe cash)
         {
             docDB = db;
+            bookCashe = cash;
+            bookCashe.SetDb(db);
         }
         public IActionResult Index(int PageId)
         {
@@ -32,6 +35,10 @@ namespace Worky.Controllers
             page.Description = model.Description;
             docDB.UpdatePage(page);
 
+            BookModel m= bookCashe.GetBookMode(model.bookId);
+           PageModel pg= m.AllPages.Where(i => i.Id == page.Id).FirstOrDefault();
+            pg.Name=model.Name;
+            
             return RedirectToAction("Index",new {PageId= model.Id }); 
         }
     }

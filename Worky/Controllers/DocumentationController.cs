@@ -2,14 +2,19 @@
 using Worky.Data.Project;
 using Worky.Project.Documents;
 using Worky.Models.DocModels;
+using Worky.Services;
+
 namespace Worky.Controllers
 {
     public class DocumentationController : Controller
     {
         IDocmentationDB docDB;
-        public DocumentationController(ProjectDbContext db)
+        IBookCashe bookCashe;
+        public DocumentationController(ProjectDbContext db,IBookCashe cash)
         {
             docDB = db;
+            bookCashe = cash;
+            bookCashe.SetDb(db);
         }
         public IActionResult Index()
         {
@@ -54,7 +59,7 @@ namespace Worky.Controllers
             
             
 
-            model.BookModel = GetBookMode(bookId);
+            model.BookModel = bookCashe.GetBookMode(bookId);
           
             List<Task> tasks = new List<Task>();
             if(selectedPage!=0)
@@ -87,43 +92,10 @@ namespace Worky.Controllers
             return View(model);
 
         }
-        public static List<BookModel> bookModelsCache = new List<BookModel>();
-
         
-        public BookModel GetBookMode(int bookId)
-        {
-            BookModel exist = bookModelsCache.Where(i => i.Id == bookId).FirstOrDefault();
-            if(exist==null)
-            {
-                exist = Create(bookId);
-
-                bookModelsCache.Add(exist);
-
-            }
-            return exist;
-        }
-        public BookModel Create(int bookId)
-        {
-            BookModel exist = new BookModel();
-
-            List<DocumentPage> pages = docDB.GetPagesForbook(bookId);
-            exist.AllPages = PageModelConverter.Convert(pages);
-
-            PagesModelsSorter sorter = new PagesModelsSorter();
-
-            sorter.Sort(exist.AllPages);
-            
-            exist.StartPage = sorter.BasePage;
-            exist.Id = bookId;
-            return exist;
-        }
-        public void UpdateInCache(int bookId)
-        {
-            BookModel exist=bookModelsCache.Where(i=>i.Id==bookId).FirstOrDefault();
-            bookModelsCache.Remove(exist);
-            BookModel nBm = Create(exist.Id);
-            bookModelsCache.Add(nBm);
-        }
+        
+      
+       
         
        
         public IActionResult RemovePage(int PageId)
@@ -145,8 +117,8 @@ namespace Worky.Controllers
                 docDB.RemovePage(reomveId);
             }
             // docDB.RemovePage(PageId);
-
-            UpdateInCache(bookId);
+            bookCashe.UpdateInCache(bookId);
+            
 
             return RedirectToAction("Watch", new { bookId = bookId});
         }
@@ -174,7 +146,7 @@ namespace Worky.Controllers
             nPage.BookId = parrent.BookId;
             docDB.AddPage(nPage);
 
-            UpdateInCache(parrent.BookId);
+            bookCashe.UpdateInCache(parrent.BookId);
 
             return RedirectToAction("Watch",new {bookId= parrent.BookId, selectedPage = nPage.Id});
         }

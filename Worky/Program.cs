@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using React.AspNet;
 using Worky.Data;
+using Worky.Services;
 using Worky.Services.EmailService;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,7 +24,7 @@ Worky.DataDB.connectionStrinProjectDb = connectionStringProjectDb;
 
 builder.Services.AddSingleton<INotificationService,EmailNotifyService>();
 
- 
+builder.Services.AddSingleton<IBookCashe, MemoryBookCache>(); 
 
 
 builder.Services.AddDbContext<Worky.Data.Project.ProjectDbContext>(options =>
