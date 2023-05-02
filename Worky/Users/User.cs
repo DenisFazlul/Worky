@@ -12,8 +12,8 @@ namespace Worky.Users
         public bool IsConfirmed { get; set; } = false;
         public string UserName { get; set; } = "Новый";
         public bool IsBlock { get; set; } = false;
-        [NotMapped]
-        public bool IsGuest { get; set; }
+
+        
        
       
 
@@ -36,31 +36,7 @@ namespace Worky.Users
             }
         }
 
-        public bool IsUserAcsessToProhect(int ProjectId)
-        {
-            bool val = false;
-            Data.Project.IProjectDb Projects = Data.DB.GetProject();
-            Project.Project project = Projects.GetProject(ProjectId);
-            if(project.UserId==this.Id)
-            {
-                 val=true;
-                this.IsGuest = false;
-            }
-
-
-            Data.IIviteCollection Invites = new Data.Project.ProjectDbContext();
-            foreach(Project.Invite inv in Invites.GetInvitesForProject(ProjectId))
-            {
-                if(inv.UserId==this.Id)
-                {
-                    return val = true;
-                    this.IsGuest = true;
-                    break;
-                }
-            }
-
-            return val;
-        }
+        
         public static User GetUsrByEmail(string Email)
         {
             IUsersCollection Users = new Worky.Data.Project.ProjectDbContext();

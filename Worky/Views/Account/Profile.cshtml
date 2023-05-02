@@ -24,6 +24,11 @@
         <div style="grid-column:2; display:grid; ">
             <a>@Model.UserName</a>
             <a>@Model.UserEmail</a>
+            @if(Model.IsAdmin)
+            {
+                      <a href="~/Admin/index">Управление пользователями</a>
+                }
+          
          </div>
     </div>
    

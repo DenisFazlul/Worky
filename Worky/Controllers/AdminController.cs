@@ -12,7 +12,12 @@ namespace Worky.Controllers
         }
         public IActionResult Index()
         {
-            List<Models.Account.DetailUserModel> model = new List<Models.Account.DetailUserModel>();
+            User cur=Users.GetUser(User.Identity.Name);
+            if(cur.Email!=AdminData.AdminEmail)
+            {
+                return StatusCode(403);
+            }
+           List<Models.Account.DetailUserModel> model = new List<Models.Account.DetailUserModel>();
 
          foreach(Worky.Users.User u in Users.GetUsers())
 

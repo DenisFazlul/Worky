@@ -8,6 +8,8 @@ namespace Worky.Models.Account
         public Users.User User { get; set; }
        public string UserEmail { get; set; }
         public string UserName { get; set; }
+        public bool IsAdmin { get; internal set; } = false;
+
         public UserProfileModel(User existUser)
         {
             this.User= existUser;

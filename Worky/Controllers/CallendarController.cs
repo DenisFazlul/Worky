@@ -2,30 +2,36 @@
 using Microsoft.AspNetCore.Mvc;
 using Worky.Models.Calendar;
 using Worky.Data.Project;
+using Worky.Data;
 
 namespace Worky.Controllers
 {
     [Authorize]
     public class CallendarController : Controller
     {
-        IProjectDb col;
+        IProjectDb projects;
+        IIviteCollection Invites;
         public CallendarController(Data.Project.ProjectDbContext context)
         {
-            col = context;
+            projects = context;
+            Invites = context;
         }
         public IActionResult Month(int pid,int month=-1,int year=-1)
         { 
             Worky.Users.User user = Worky.Users.User.GetUsrByEmail(User.Identity.Name);
 
             
-            Project.Project project = col.GetProject(pid);
+            Project.Project project = projects.GetProject(pid);
             if (project == null)
             {
 
                 return RedirectToAction("NoAccess", "Msg");
             }
 
-            if (user.IsUserAcsessToProhect(pid) == false)
+
+            Services.UserAcsessService ac = new Services.UserAcsessService(Invites, projects);
+            
+            if (ac.IsUserAccsessToProject(user, project) == false)
             {
                 return RedirectToAction("NoAccess", "Msg");
             }

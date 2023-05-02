@@ -7,6 +7,7 @@ namespace Worky.Models.DocModels
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public string AutorName { get; set; }
 
         internal void SetFromPage(DocumentPage selPage)
         {

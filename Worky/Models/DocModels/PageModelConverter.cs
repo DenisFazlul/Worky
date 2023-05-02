@@ -23,6 +23,7 @@ namespace Worky.Models.DocModels
             model.bookId = d.BookId;
             model.ParrentId = d.ParrentId;
             model.Name = d.Name;
+            model.AutorId = d.AutorId;
             return model;
         }
     }

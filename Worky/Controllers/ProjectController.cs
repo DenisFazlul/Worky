@@ -20,7 +20,7 @@ namespace Worky.Controllers
         public IActionResult Index(int ProjectId)
         {
             Project.Project project = Projects.GetProject(ProjectId);
-
+            Worky.Users.User user = Worky.Users.User.GetUsrByEmail(User.Identity.Name);
             if (project == null)
             {
                 return RedirectToAction("NoAccess", "Msg");
@@ -33,17 +33,18 @@ namespace Worky.Controllers
             model.SetIvites(Invites.GetInvitesForProject(ProjectId));
             
             
+           
             
-            Worky.Users.User user= Worky.Users.User.GetUsrByEmail(User.Identity.Name);
             if (user.Id == project.UserId)
             {
                 model.AllowAddInvites = true;
             }
-
-            if(user.IsUserAcsessToProhect(ProjectId))
+            Services.UserAcsessService ac = new Services.UserAcsessService(Invites, Projects);
+            if(ac.IsUserAccsessToProject(user,project))
             {
                 return View(model);
             }
+ 
             else
             {
                 return RedirectToAction("NoAccess", "Msg");

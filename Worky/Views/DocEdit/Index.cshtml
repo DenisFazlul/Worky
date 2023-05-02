@@ -3,7 +3,15 @@
 @{
     ViewData["Title"] = "Index";
 }
-
+<head>
+   <script type="text/javascript">
+    function f()
+    {
+        var ht= document.getElementById('editor').innerHTML;
+       
+    }
+  </script>
+</head>
  
 <div style="margin:100px">
 <h4>Редактирование</h4>
@@ -24,12 +32,12 @@
             </div>
              <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
+                <input asp-for="Description" id="ds" class="form-control" />
+                <span asp-validation-for="Description"  class="text-danger"></span>
             </div>
             <input asp-for="bookId" hidden class="form-control" />
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-primary" onload="Load('@Model.Description')" onclick='GetText()' />
             </div>
         </form>
     </div>
@@ -39,4 +47,32 @@
     <a href="~/Documentation/Watch?bookId=@Model.bookId&selectedPage=@Model.Id">к документации</a>
 </div>
 </div>
+  
 
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+
+<!-- Create the editor container -->
+<div id="editor">
+    @Model.Description
+  
+</div>
+<!-- Include the Quill library -->
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
+<!-- Initialize Quill editor -->
+<script>
+  var quill = new Quill('#editor', {
+    theme: 'snow'
+  });
+  function Load(text)
+  {
+      quill.setText(text);
+  }
+  function GetText()
+  {
+
+      var t= document.getElementById('editor').firstChild;
+      var text = t.innerHTML;
+      document.getElementById('ds').value=text;
+  }
+</script>

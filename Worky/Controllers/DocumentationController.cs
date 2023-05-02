@@ -3,6 +3,7 @@ using Worky.Data.Project;
 using Worky.Project.Documents;
 using Worky.Models.DocModels;
 using Worky.Services;
+using Worky.Users;
 
 namespace Worky.Controllers
 {
@@ -10,11 +11,17 @@ namespace Worky.Controllers
     {
         IDocmentationDB docDB;
         IBookCashe bookCashe;
+        IUsersCollection users;
+        Data.IIviteCollection Invites;
+        IProjectDb projectDb;
         public DocumentationController(ProjectDbContext db,IBookCashe cash)
         {
             docDB = db;
             bookCashe = cash;
             bookCashe.SetDb(db);
+            users = db;
+            Invites = db;
+            projectDb = db;
         }
         public IActionResult Index()
         {
@@ -42,6 +49,8 @@ namespace Worky.Controllers
         public IActionResult Watch(int bookId,int selectedPage=0)
         {
             DocumentationBook exist= docDB.GetBookByid(bookId);
+            
+            Users.User curUser = users.GetUser(User.Identity.Name);
             if (exist == null)
             {
                 Models.Message msg = new Models.Message();
@@ -53,7 +62,20 @@ namespace Worky.Controllers
                 return View("Message", msg);
                
             }
-            
+            Project.Project prj = projectDb.GetProject(exist.ProjectId);
+            Services.UserAcsessService ac = new Services.UserAcsessService(Invites, projectDb);
+            if(ac.IsUserAccsessToProject(curUser,prj)==false)
+            {
+                Models.Message msg = new Models.Message();
+
+                msg.Content = "Нет доступа";
+                msg.BackUrl = "/";
+                msg.Header = "Нет доступа";
+                msg.UrlName = "К проектам";
+                return View("Message", msg);
+            }
+
+
 
             DocumentationModel model = new DocumentationModel();
             
@@ -75,6 +97,13 @@ namespace Worky.Controllers
                     DocumentPage selectedDocPage = docDB.GetPage(selectedPage);
                     model.SelectedPage = new SelectedPageModel();
                     model.SelectedPage.SetFromPage(selectedDocPage);
+                    Users.User Autor = users.GetUser(selectedDocPage.AutorId);
+                    if (Autor != null)
+                    {
+                        model.SelectedPage.AutorName = Autor.GetName();
+                    }
+
+
                 });
                 tasks.Add(t2);
 
@@ -124,18 +153,23 @@ namespace Worky.Controllers
         }
         public IActionResult AddBasePage(int bookId)
         {
+            User user = users.GetUser(User.Identity.Name);
+
             DocumentPage nPAge = new DocumentPage();
+            nPAge.AutorId = user.Id;
             nPAge.BookId = bookId;
             nPAge.ParrentId = 0;
             nPAge.Name = "BasePage";
             docDB.AddPage(nPAge);
+            bookCashe.UpdateInCache(bookId);
             return RedirectToAction("Watch", new { bookId = bookId, selectedPage=nPAge.Id });
         }
          
         public IActionResult AddPage(int ParrentPageId)
         {
-            
 
+           
+            User user = users.GetUser(User.Identity.Name);
 
             DocumentPage parrent= docDB.GetPage(ParrentPageId);
             List<DocumentPage> pages = docDB.GetPagesForbook(parrent.BookId);
@@ -144,6 +178,7 @@ namespace Worky.Controllers
             nPage.Name = $"New Page ({pages.Count+1})";
             nPage.ParrentId = parrent.Id;
             nPage.BookId = parrent.BookId;
+            nPage.AutorId = user.Id;
             docDB.AddPage(nPage);
 
             bookCashe.UpdateInCache(parrent.BookId);

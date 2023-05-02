@@ -9,6 +9,8 @@
         public bool IsSelected { get; set; } = false;
         
         public PageCollectionModel Pages { get; set; }
+        public int AutorId { get; internal set; }
+
         public PageModel()
         {
             Pages = new PageCollectionModel();

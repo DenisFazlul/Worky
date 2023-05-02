@@ -96,7 +96,7 @@ namespace Worky.Controllers
                 if(model.IsUserAcsepted(User))
                 {
                     Authenticate(User);
-                    return RedirectToAction("AdminPanel");
+                    return RedirectToAction("YourProjects", "Projects");
                 }
                 else
                 {
@@ -199,7 +199,12 @@ namespace Worky.Controllers
             User ExistUser = Users.GetUser(userName);
             if (ExistUser != null)
             {
+
                 Models.Account.UserProfileModel model = new Models.Account.UserProfileModel(ExistUser);
+                if(ExistUser.Email==AdminData.AdminEmail)
+                {
+                    model.IsAdmin = true;
+                }
                 return View(model);
             }
             else

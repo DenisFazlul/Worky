@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Worky.Data;
 using Worky.Data.Project;
 
 namespace Worky.Controllers
@@ -7,15 +8,17 @@ namespace Worky.Controllers
     [Authorize]
     public class TasksController : Controller
     {
-        IProjectDb projectDb;
+        IProjectDb projects;
+        IIviteCollection invitesToProject;
         public TasksController(ProjectDbContext db)
         {
-            projectDb = db;
+            projects = db;
+            invitesToProject = db;
         }
         public IActionResult EditColumnTask(int ProjectId)
         {
              
-            List<Worky.Project.Task.TaskStatus> taskStatuses = projectDb.GetTaskStatuses(ProjectId);
+            List<Worky.Project.Task.TaskStatus> taskStatuses = projects.GetTaskStatuses(ProjectId);
             Models.Project.ShowAllTaskStatusModel model = new Models.Project.ShowAllTaskStatusModel();
             model.ProjectId = ProjectId;
             model.TaskStatuses = taskStatuses;
@@ -24,8 +27,8 @@ namespace Worky.Controllers
         public IActionResult DeleteTaskStatus(int id)
         {
             
-            Worky.Project.Task.TaskStatus ts = projectDb.GetTaskStatusById(id);
-            projectDb.RemoveTaskStatus(ts);
+            Worky.Project.Task.TaskStatus ts = projects.GetTaskStatusById(id);
+            projects.RemoveTaskStatus(ts);
 
             return RedirectToAction("EditColumnTask", new { ProjectId = ts.ProjectId });
         }
@@ -36,7 +39,7 @@ namespace Worky.Controllers
             st.ProjectId = ProjectId;
             st.Name = "New Column";
 
-            projectDb.AddTaskStatus(st);
+            projects.AddTaskStatus(st);
 
             return RedirectToAction("EditColumnTask", new { ProjectId = ProjectId });
         }
@@ -45,27 +48,28 @@ namespace Worky.Controllers
             
             Worky.Users.User user = Worky.Users.User.GetUsrByEmail(User.Identity.Name);
 
-            Project.Project project = projectDb.GetProject(ProjectId);
+            Project.Project project = projects.GetProject(ProjectId);
             if(project==null)
             {
                
                 return RedirectToAction("NoAccess", "Msg");
             }
-           
-            if (user.IsUserAcsessToProhect(ProjectId)==false)
+            Services.UserAcsessService accesService = new Services.UserAcsessService(invitesToProject, projects);
+            
+            if (accesService.IsUserAccsessToProject(user, project)== false)
             {
                 return RedirectToAction("NoAccess", "Msg");
             }
 
             Worky.Models.Project.TasksModel model = new Models.Project.TasksModel();
             model.ProjectId = ProjectId;
-            List<Project.Task.Task> tasks = projectDb.GetTasksForProject(ProjectId);
-            List<Worky.Project.Task.TaskStatus> taskStatuses = projectDb.GetTaskStatuses(project.Id);
+            List<Project.Task.Task> tasks = projects.GetTasksForProject(ProjectId);
+            List<Worky.Project.Task.TaskStatus> taskStatuses = projects.GetTaskStatuses(project.Id);
 
             if(taskStatuses.Count==0)
             {
                 project.AddDefultTaskStatus();
-                taskStatuses = projectDb.GetTaskStatuses(project.Id);
+                taskStatuses = projects.GetTaskStatuses(project.Id);
             }
 
             foreach(Project.Task.TaskStatus taskStatus in taskStatuses)
@@ -85,7 +89,7 @@ namespace Worky.Controllers
         public IActionResult AddNewTask(int TaskStatusId)
         {
              
-            Worky.Project.Task.TaskStatus st= projectDb.GetTaskStatusById(TaskStatusId);
+            Worky.Project.Task.TaskStatus st= projects.GetTaskStatusById(TaskStatusId);
             
             st.AddNewTask();
             return RedirectToAction("ProjectTasks", new { ProjectId = st.ProjectId });
@@ -95,7 +99,7 @@ namespace Worky.Controllers
         public IActionResult EditTaskStatus(int id)
         {
              
-            Worky.Project.Task.TaskStatus ts= projectDb.GetTaskStatusById(id);
+            Worky.Project.Task.TaskStatus ts= projects.GetTaskStatusById(id);
 
             return View(ts);
         }
@@ -103,7 +107,7 @@ namespace Worky.Controllers
         public IActionResult EditTaskStatus(Worky.Project.Task.TaskStatus model)
         {
             
-            projectDb.Update(model);
+            projects.Update(model);
 
             return RedirectToAction("EditColumnTask", new { ProjectId = model.ProjectId });
         }
