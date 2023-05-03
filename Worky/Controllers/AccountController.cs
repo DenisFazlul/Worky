@@ -13,9 +13,9 @@ namespace Worky.Controllers
     {
         Users.IUsersCollection Users;
         INotificationService notificationService;
-        public AccountController(Data.Project.ProjectDbContext db,INotificationService notify)
+        public AccountController(Data.Project.ProjectDbContext db,INotificationService notify, IUsersCollection users)
         {
-            Users = db;
+            Users = users;
             notificationService = notify;
         }
         public IActionResult Index()

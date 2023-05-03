@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Worky.Data.Project;
+using Worky.Users;
 
 namespace Worky.Controllers
 {
@@ -10,10 +11,10 @@ namespace Worky.Controllers
         Data.Project.IProjectDb Projects;
         Users.IUsersCollection Users;
         Data.IIviteCollection Invites;
-        public ProjectsController(Data.Project.ProjectDbContext db)
+        public ProjectsController(Data.Project.ProjectDbContext db, IUsersCollection users)
         {
             Projects = db;
-            Users = db;
+            Users = users;
             Invites = db;
         }
         public IActionResult YourProjects()

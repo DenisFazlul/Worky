@@ -5,8 +5,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using React.AspNet;
 using Worky.Data;
+using Worky.Data.Tags;
 using Worky.Services;
 using Worky.Services.EmailService;
+using Worky.Users;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,14 +24,25 @@ var connectionStringProjectDb= builder.Configuration.GetConnectionString("Projec
 Worky.DataDB.connectionStrinProjectDb = connectionStringProjectDb;
 
 
-builder.Services.AddSingleton<INotificationService,EmailNotifyService>();
 
-builder.Services.AddSingleton<IBookCashe, MemoryBookCache>(); 
 
 
 builder.Services.AddDbContext<Worky.Data.Project.ProjectDbContext>(options =>
     options.UseSqlServer(connectionStringProjectDb));
 
+
+
+var connectionStringUsersDb = builder.Configuration.GetConnectionString("UsersDb");
+builder.Services.AddDbContext<IUsersCollection, UserDbContext>(options =>
+ options.UseSqlServer(connectionStringUsersDb));
+
+var connectionToTagsDb= builder.Configuration.GetConnectionString("TagsDb");
+builder.Services.AddDbContext<ITagsDb, TagsDb>(options =>
+ options.UseSqlServer(connectionToTagsDb));
+
+builder.Services.AddSingleton<INotificationService, EmailNotifyService>();
+
+builder.Services.AddSingleton<IBookCashe, MemoryBookCache>();
 
 
 builder.Services.AddReact();

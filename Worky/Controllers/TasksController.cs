@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Worky.Data;
 using Worky.Data.Project;
+using Worky.Models.Project;
+using Worky.Users;
 
 namespace Worky.Controllers
 {
@@ -10,10 +12,12 @@ namespace Worky.Controllers
     {
         IProjectDb projects;
         IIviteCollection invitesToProject;
-        public TasksController(ProjectDbContext db)
+        IUsersCollection users;
+        public TasksController(ProjectDbContext db, IUsersCollection _users)
         {
             projects = db;
             invitesToProject = db;
+            users = _users;
         }
         public IActionResult EditColumnTask(int ProjectId)
         {
@@ -46,7 +50,7 @@ namespace Worky.Controllers
         public IActionResult ProjectTasks(int ProjectId)
         {
             
-            Worky.Users.User user = Worky.Users.User.GetUsrByEmail(User.Identity.Name);
+            Worky.Users.User user = users.GetUser(User.Identity.Name);
 
             Project.Project project = projects.GetProject(ProjectId);
             if(project==null)
@@ -61,7 +65,7 @@ namespace Worky.Controllers
                 return RedirectToAction("NoAccess", "Msg");
             }
 
-            Worky.Models.Project.TasksModel model = new Models.Project.TasksModel();
+            TasksSetModel model = new  TasksSetModel();
             model.ProjectId = ProjectId;
             List<Project.Task.Task> tasks = projects.GetTasksForProject(ProjectId);
             List<Worky.Project.Task.TaskStatus> taskStatuses = projects.GetTaskStatuses(project.Id);
@@ -72,10 +76,11 @@ namespace Worky.Controllers
                 taskStatuses = projects.GetTaskStatuses(project.Id);
             }
 
-            foreach(Project.Task.TaskStatus taskStatus in taskStatuses)
-            {
-                taskStatus.Tasks.AddRange(tasks.Where(i => i.TaskStatusId == taskStatus.Id));
-            }
+            SortTask(tasks, taskStatuses);
+            //foreach(Project.Task.TaskStatus taskStatus in taskStatuses)
+            //{
+            //    taskStatus.Tasks.AddRange(tasks.Where(i => i.TaskStatusId == taskStatus.Id));
+            //}
             
                 model.Statuses = taskStatuses;
             
@@ -85,6 +90,22 @@ namespace Worky.Controllers
 
 
             return View(model);
+        }
+        private void SortTask(List<Project.Task.Task> tasks, List<Worky.Project.Task.TaskStatus> taskStatuses)
+        {
+            foreach(Project.Task.Task task in tasks)
+            {
+                Project.Task.TaskStatus st =  taskStatuses.Where(i => i.Id == task.TaskStatusId).FirstOrDefault();
+                if(st==null)
+                {
+                    taskStatuses[0].Tasks.Add(task);
+                }
+                else
+                {
+                    st.Tasks.Add(task);
+                }
+
+            }
         }
         public IActionResult AddNewTask(int TaskStatusId)
         {

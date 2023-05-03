@@ -1,4 +1,5 @@
 ﻿@using Worky.Models.Project;
+@using Worky.Models.TaskTags;
 @model Worky.Models.Project.EditTaskModel
 
 @{
@@ -40,144 +41,157 @@
 
 </head>
 
-
-<div style="display:grid; grid-template-columns: 1fr 100px;">
-    <h2>Редактирование</h2>
-     
-</div>
-<hr />
-<div style="display:grid; grid-template-columns:1fr 75px">
-    <div>
-          <a href="/Tasks/ProjectTasks?ProjectId=@Model.ProjectId" class="Dbtn">К Задачам</a>
+<div style="padding:50px">
+    <div style="display:grid; grid-template-columns: 1fr 100px;">
+        <h2>Редактирование</h2>
+       
     </div>
+    <hr />
+    <div style="display:grid; grid-template-columns:1fr 75px">
+        <div>
+              <a href="/Tasks/ProjectTasks?ProjectId=@Model.ProjectId" class="Dbtn">К Задачам</a>
+        </div>
      
-     <div>
-          <a href="/Task/DeleteTask?TaskId=@Model.TaskId" class="Dbtn">Удалить</a>
-     </div>
+         <div>
+              <a href="/Task/DeleteTask?TaskId=@Model.TaskId" class="Dbtn">Удалить</a>
+         </div>
    
   
-</div>
+    </div>
 
 
-<hr />
-
-        <form asp-action="Edit">
-            <div class="EditCardGrid">
+    <hr />
+    <form asp-action="Edit">
+                <div class="EditCardGrid">
 
             
-                <div>
+                    <div>
 
            
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="form-group">
-                        <label asp-for="TaskId" class="control-label" hidden></label>
-                        <input asp-for="TaskId" class="form-control" hidden />
-                        <input asp-for="ProjectId" class="form-control" hidden />
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="TaskId" class="control-label" hidden></label>
+                            <input asp-for="TaskId" class="form-control" hidden />
+                            <input asp-for="ProjectId" class="form-control" hidden />
                         
-                        <span asp-validation-for="TaskId" class="text-danger" hidden></span>
-                    </div>
+                            <span asp-validation-for="TaskId" class="text-danger" hidden></span>
+                        </div>
 
-                    <div class="form-group">
-                        <label asp-for="Name"  class="control-label"></label>
-                        <input asp-for="Name" class="form-control" />
-                        <span asp-validation-for="Name" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Description" class="control-label"></label>
-                        <textarea  asp-for="Description" style="height:300px; width:100%" name="Description" class="form-control"></textarea>
+                        <div class="form-group">
+                            <label asp-for="Name"  class="control-label"></label>
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Description" class="control-label"></label>
+                            <textarea  asp-for="Description" style="height:300px; width:100%" name="Description" class="form-control"></textarea>
                        
-                        <span asp-validation-for="Description" class="text-danger"></span>
-                    </div>
-                 </div>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                     </div>
 
-                <div style="display:flex; flex-direction:column; gap:18px;">
-                    <div class="form-group">
-                       <label asp-for="CurTaskStatusId" class="control-label"></label>
-                       <select class="form-control" asp-for="CurTaskStatusId" asp-items=@Model.GetTaskList()></select>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Start" class="control-label"></label>
-                        <input asp-for="Start" class="form-control" />
-                        <span asp-validation-for="Start" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="End" class="control-label"></label>
-                        <input asp-for="End" class="form-control" />
+                    <div style="display:flex; flex-direction:column; gap:18px;">
+                        <div class="form-group">
+                           <label asp-for="CurTaskStatusId" class="control-label"></label>
+                           <select class="form-control" asp-for="CurTaskStatusId" asp-items=@Model.GetTaskList()></select>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Start" class="control-label"></label>
+                            <input asp-for="Start" class="form-control" />
+                            <span asp-validation-for="Start" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="End" class="control-label"></label>
+                            <input asp-for="End" class="form-control" />
                         
-                        <span asp-validation-for="End" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                         <label>Создал</label>
+                            <span asp-validation-for="End" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                             <label>Создал</label>
                         
-                        <label  class="form-control" >@Model.GetOwnerName()</label>
-                    </div>
+                            <label  class="form-control" >@Model.GetOwnerName()</label>
+                        </div>
+                        <div style="display:flex">
+                            <div class="form-control">
+                                 <a href="~/TaskTags/Add?TaskId=@Model.TaskId">Добавить теги</a>
+                            </div>
+                            
+                            @foreach(TagTaskInstanceModel m in @Model.Tags)
+                            {
+                                <div class="form-control">
+                                    <a>@m.Name</a>
+                                </div>
+
+                                
+                            }
+                        </div>
+
                         
                
                     
+                    </div>
                 </div>
-            </div>
-            <br />
-            <div class="form-group">
+                <br />
+                <div class="form-group">
 
-                <input type="submit" value="Сохранить" class="Dbtn" style="width:100%" />
-            </div>
-        </form>
+                    <input type="submit" value="Сохранить" class="Dbtn" style="width:100%" />
+                </div>
+    </form>
        
    
 
 
 
 
-<div style="display:grid;"  class="blockPadding"  >
-     <h3>Файлы</h3>
-        <hr />
+    <div style="display:grid;"  class="blockPadding"  >
+         <h3>Файлы</h3>
+            <hr />
       
-       <div  style="display:flex; flex-wrap:wrap; padding-top:10px">
+           <div  style="display:flex; flex-wrap:wrap; padding-top:10px">
        
-        @foreach(Worky.Models.Project.TaskFile ts in @Model.Task.TaskFiles)
-        {
-            <div class="DBorder" style="display:grid; grid-template-rows:1fr 1fr;" id="TaskFile-@ts.Id">
-                 <a>@ts.Name</a>
-                 <div style="display:flex">
-                <form method="post" asp-action ="DownloadTaskFile" asp-controller="Files">
+            @foreach(Worky.Models.Project.TaskFile ts in @Model.Task.TaskFiles)
+            {
+                <div class="DBorder" style="display:grid; grid-template-rows:1fr 1fr;" id="TaskFile-@ts.Id">
+                     <a>@ts.Name</a>
+                     <div style="display:flex">
+                    <form method="post" asp-action ="DownloadTaskFile" asp-controller="Files">
                    
-                    <input name="TaskFileId" value="@ts.Id" hidden >
-                    <input type="submit" value="Скачать" class="Dbtn">
-                </form>
-                <button onclick="RemoveFile('@ts.Id')" class="Dbtn"> Удалить</button>
-                  </div>
+                        <input name="TaskFileId" value="@ts.Id" hidden >
+                        <input type="submit" value="Скачать" class="Dbtn">
+                    </form>
+                    <button onclick="RemoveFile('@ts.Id')" class="Dbtn"> Удалить</button>
+                      </div>
          
+                </div>
+            }
             </div>
-        }
-        </div>
-        <br />
-       <a href="~/Files/AddTaskFile?TaskId=@Model.TaskId" class="Dbtn" style="width:100%; padding-top:10px">Добавить файл</a>
-</div>
-
-
-
-
-
-<div class="blockPadding" >
-    <h3>Комментарии</h3>
-    <hr />
-    <div style="overflow:auto;max-height:300px" >
-
-   @Html.Partial("CommentsView",@Model.CommentModels)
-    @*@foreach(Worky.Models.Project.CommentModel c in  @Model.CommentModels)
-    {
-        
-        <div class="list-group-item list-group-item-action py-3 lh-tight"  style="display:flex; flex-direction:column">
-            <h5>@c.GetuserName()</h5>
-            @c.Comment
-            <br>
-            <hr>
-            <a>@c.DateTime</a>
-        </div>
-    }*@
+            <br />
+           <a href="~/Files/AddTaskFile?TaskId=@Model.TaskId" class="Dbtn" style="width:100%; padding-top:10px">Добавить файл</a>
     </div>
-        
-    @Html.Partial("CommentAddView",new CommentAddModel(){TaskId=Model.TaskId})
-     
-</div>
 
+
+
+
+
+    <div class="blockPadding" >
+        <h3>Комментарии</h3>
+        <hr />
+        <div style="overflow:auto;max-height:300px" >
+
+        @Html.Partial("CommentsView",@Model.CommentModels)
+        @*@foreach(Worky.Models.Project.CommentModel c in  @Model.CommentModels)
+        {
+        
+            <div class="list-group-item list-group-item-action py-3 lh-tight"  style="display:flex; flex-direction:column">
+                <h5>@c.GetuserName()</h5>
+                @c.Comment
+                <br>
+                <hr>
+                <a>@c.DateTime</a>
+            </div>
+        }*@
+        </div>
+        
+        @Html.Partial("CommentAddView",new CommentAddModel(){TaskId=Model.TaskId})
+    </div>
+</div>

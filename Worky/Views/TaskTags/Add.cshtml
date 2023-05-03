@@ -1,0 +1,22 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@using Worky.Models.TaskTags;
+@model AddTagsToTaskModel;
+
+
+<div>
+    @foreach(string existTag in @Model.ExistTags)
+    {
+            <a>@existTag</a>
+           
+    }
+</div>
+
+<form method="post">
+    <input asp-for="@Model.TaskId" hidden />
+    <input asp-for="@Model.InputTags" />
+    <button type="submit">Добавить</button>
+</form>
+@{
+}

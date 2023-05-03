@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Worky.Users;
 
 namespace Worky.Controllers
 {
@@ -6,10 +7,10 @@ namespace Worky.Controllers
     {
         Data.Project.IProjectDb Projects;
         Users.IUsersCollection Users;
-        public NotesController(Data.Project.ProjectDbContext db)
+        public NotesController(Data.Project.ProjectDbContext db,IUsersCollection users)
         {
             Projects = db;
-            Users = db;
+            Users = users;
         }
         public IActionResult ProjectNotes(int ProjectId)
         {

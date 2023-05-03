@@ -24,8 +24,7 @@ namespace Worky.Models.Project
             this.TaskId = com.TaskId;
      
             this.Comment = com.Comment;
-            Worky.Users.IUsersCollection users = new Worky.Data.Project.ProjectDbContext();
-            this.User = users.GetUser(com.UserId);
+           
             this.DateTime = com.DateTime.ToString();
         }
         public string GetuserName()

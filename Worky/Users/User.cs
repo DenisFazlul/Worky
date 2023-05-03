@@ -37,12 +37,7 @@ namespace Worky.Users
         }
 
         
-        public static User GetUsrByEmail(string Email)
-        {
-            IUsersCollection Users = new Worky.Data.Project.ProjectDbContext();
-            Worky.Users.User user = Users.GetUser(Email);
-            return user;
-        }
+        
         internal void GenerateCode()
         {
             Random r = new Random();

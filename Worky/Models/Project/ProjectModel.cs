@@ -18,9 +18,7 @@ namespace Worky.Models.Project
             this.Name = project.Name;
             this.Description = project.Description;
             this.Invites = new List<InviteModel>();
-            Users.IUsersCollection Users = Data.DB.GetUsers();
-            Worky.Users.User user = Users.GetUser(project.UserId);
-            this.Owner = user;
+         
         }
 
         internal void SetValuesFromProject(Worky.Project.Project model)

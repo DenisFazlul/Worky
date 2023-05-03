@@ -2,6 +2,6 @@
 {
     public class AdminPageModel
     {
-        public List<Users.User> users { get; set; }
+        public Users.User[] users { get; set; }
     }
 }

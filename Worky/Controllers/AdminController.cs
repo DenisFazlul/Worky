@@ -6,9 +6,9 @@ namespace Worky.Controllers
     public class AdminController : Controller
     {
         Users.IUsersCollection Users;
-        public AdminController(Data.Project.ProjectDbContext db)
+        public AdminController(Data.Project.ProjectDbContext db, IUsersCollection users)
         {
-            this.Users = db;
+            this.Users = users;
         }
         public IActionResult Index()
         {

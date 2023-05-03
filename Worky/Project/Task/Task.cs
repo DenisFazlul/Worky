@@ -35,13 +35,7 @@ namespace Worky.Project.Task
             return val;
         }
 
-        internal void GetComments()
-        {
-            Data.Project.IProjectDb col = Data.DB.GetProject();
-            this.TaskComments = col.GetTaskCommentsByTaskId(this.Id);
-           
-
-        }
+         
 
         internal void AddToDb()
         {
@@ -104,12 +98,12 @@ namespace Worky.Project.Task
         internal void DeleteComments()
         {
          
-            GetComments();
-            foreach(TaskComment comment in this.TaskComments)
-            {
-                comment.Delete();
+            //GetComments();
+            //foreach(TaskComment comment in this.TaskComments)
+            //{
+            //    comment.Delete();
 
-            }
+            //}
         }
 
         internal void Delete()

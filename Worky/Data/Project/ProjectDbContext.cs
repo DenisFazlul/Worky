@@ -10,7 +10,7 @@ namespace Worky.Data.Project
     ///Add-Migration t2 -context ProjectDbContext
 
     ///Update-Database -context ProjectDbContext
-    public class ProjectDbContext : DbContext, IProjectDb, IdFilesDb, ITaskCommentsDb, IUsersCollection, IIviteCollection, IDocmentationDB
+    public class ProjectDbContext : DbContext, IProjectDb, IdFilesDb, ITaskCommentsDb, IIviteCollection, IDocmentationDB
     {
        public DbSet<DocumentPage> Pages { get; set; }
         public DbSet<DocumentationBook> DocumentationBooks { get; set; }
@@ -277,49 +277,11 @@ namespace Worky.Data.Project
                 this.SaveChanges();
             }
         }
-        public void AddUser(User user)
-        {
-            user.GenerateCode();
-            this.Users.Add(user);
-            this.SaveChanges();
-        }
-
-        public void DeleteUser(User user)
-        {
-            User u = Users.Where(i => i.Id == user.Id).FirstOrDefault();
-            Users.Remove(u);
-            this.SaveChanges();
-        }
-
-        public User GetUser(int id)
-        {
-            return this.Users.Where(i => i.Id == id).FirstOrDefault();
-        }
-
-        public User GetUser(string Email)
-        {
-
-
-            return this.Users.Where(i => i.Email == Email).FirstOrDefault();
-        }
-
-        public List<User> GetUsers()
-        {
-            return this.Users.ToList();
-        }
+    
 
 
 
-        public void UpdateUser(User user)
-        {
-            User existUser = Users.Where(i => i.Id == user.Id).FirstOrDefault();
-            existUser.Pass = user.Pass;
-            existUser.IsConfirmed = user.IsConfirmed;
-            existUser.UserName = user.UserName;
-            existUser.Email = user.Email;
-            existUser.IsBlock = user.IsBlock;
-            this.SaveChanges();
-        }
+        
         public void AddInvite(Invite invite)
         {
             invites.Add(invite);

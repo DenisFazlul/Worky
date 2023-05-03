@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Worky.Models.Calendar;
 using Worky.Data.Project;
 using Worky.Data;
+using Worky.Users;
 
 namespace Worky.Controllers
 {
@@ -11,14 +12,17 @@ namespace Worky.Controllers
     {
         IProjectDb projects;
         IIviteCollection Invites;
-        public CallendarController(Data.Project.ProjectDbContext context)
+        IUsersCollection Users;
+        
+        public CallendarController(Data.Project.ProjectDbContext context, IUsersCollection users)
         {
             projects = context;
             Invites = context;
+            Users = users;
         }
         public IActionResult Month(int pid,int month=-1,int year=-1)
         { 
-            Worky.Users.User user = Worky.Users.User.GetUsrByEmail(User.Identity.Name);
+            Worky.Users.User user = Users.GetUser(User.Identity.Name);
 
             
             Project.Project project = projects.GetProject(pid);

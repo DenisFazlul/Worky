@@ -10,17 +10,17 @@ namespace Worky.Controllers
     public class DocumentationController : Controller
     {
         IDocmentationDB docDB;
-        IBookCashe bookCashe;
-        IUsersCollection users;
-        Data.IIviteCollection Invites;
+        IBookCashe booksCache;
+        IUsersCollection usersDb;
+        Data.IIviteCollection invitesDb;
         IProjectDb projectDb;
-        public DocumentationController(ProjectDbContext db,IBookCashe cash)
+        public DocumentationController(ProjectDbContext db,IBookCashe cash,IUsersCollection users)
         {
             docDB = db;
-            bookCashe = cash;
-            bookCashe.SetDb(db);
-            users = db;
-            Invites = db;
+            booksCache = cash;
+            booksCache.SetDb(db);
+            usersDb = users;
+            invitesDb = db;
             projectDb = db;
         }
         public IActionResult Index()
@@ -50,7 +50,7 @@ namespace Worky.Controllers
         {
             DocumentationBook exist= docDB.GetBookByid(bookId);
             
-            Users.User curUser = users.GetUser(User.Identity.Name);
+            Users.User curUser = usersDb.GetUser(User.Identity.Name);
             if (exist == null)
             {
                 Models.Message msg = new Models.Message();
@@ -63,7 +63,7 @@ namespace Worky.Controllers
                
             }
             Project.Project prj = projectDb.GetProject(exist.ProjectId);
-            Services.UserAcsessService ac = new Services.UserAcsessService(Invites, projectDb);
+            Services.UserAcsessService ac = new Services.UserAcsessService(invitesDb, projectDb);
             if(ac.IsUserAccsessToProject(curUser,prj)==false)
             {
                 Models.Message msg = new Models.Message();
@@ -81,7 +81,7 @@ namespace Worky.Controllers
             
             
 
-            model.BookModel = bookCashe.GetBookMode(bookId);
+            model.BookModel = booksCache.GetBookMode(bookId);
           
             List<Task> tasks = new List<Task>();
             if(selectedPage!=0)
@@ -97,7 +97,7 @@ namespace Worky.Controllers
                     DocumentPage selectedDocPage = docDB.GetPage(selectedPage);
                     model.SelectedPage = new SelectedPageModel();
                     model.SelectedPage.SetFromPage(selectedDocPage);
-                    Users.User Autor = users.GetUser(selectedDocPage.AutorId);
+                    Users.User Autor = usersDb.GetUser(selectedDocPage.AutorId);
                     if (Autor != null)
                     {
                         model.SelectedPage.AutorName = Autor.GetName();
@@ -146,14 +146,14 @@ namespace Worky.Controllers
                 docDB.RemovePage(reomveId);
             }
             // docDB.RemovePage(PageId);
-            bookCashe.UpdateInCache(bookId);
+            booksCache.UpdateInCache(bookId);
             
 
             return RedirectToAction("Watch", new { bookId = bookId});
         }
         public IActionResult AddBasePage(int bookId)
         {
-            User user = users.GetUser(User.Identity.Name);
+            User user = usersDb.GetUser(User.Identity.Name);
 
             DocumentPage nPAge = new DocumentPage();
             nPAge.AutorId = user.Id;
@@ -161,7 +161,7 @@ namespace Worky.Controllers
             nPAge.ParrentId = 0;
             nPAge.Name = "BasePage";
             docDB.AddPage(nPAge);
-            bookCashe.UpdateInCache(bookId);
+            booksCache.UpdateInCache(bookId);
             return RedirectToAction("Watch", new { bookId = bookId, selectedPage=nPAge.Id });
         }
          
@@ -169,7 +169,7 @@ namespace Worky.Controllers
         {
 
            
-            User user = users.GetUser(User.Identity.Name);
+            User user = usersDb.GetUser(User.Identity.Name);
 
             DocumentPage parrent= docDB.GetPage(ParrentPageId);
             List<DocumentPage> pages = docDB.GetPagesForbook(parrent.BookId);
@@ -181,7 +181,7 @@ namespace Worky.Controllers
             nPage.AutorId = user.Id;
             docDB.AddPage(nPage);
 
-            bookCashe.UpdateInCache(parrent.BookId);
+            booksCache.UpdateInCache(parrent.BookId);
 
             return RedirectToAction("Watch",new {bookId= parrent.BookId, selectedPage = nPage.Id});
         }

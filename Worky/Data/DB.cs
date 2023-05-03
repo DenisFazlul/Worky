@@ -20,10 +20,6 @@ namespace Worky.Data
             return col;
         }
 
-        internal static IUsersCollection GetUsers()
-        {
-            Worky.Users.IUsersCollection col = new Data.Project.ProjectDbContext();
-            return col;
-        }
+       
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Worky.Project;
+using Worky.Users;
 
 namespace Worky.Controllers
 {
@@ -10,24 +11,24 @@ namespace Worky.Controllers
         Data.IIviteCollection Invites;
         Users.IUsersCollection Users;
         Data.Project.IProjectDb Projects;
-        public ProjectController(Data.Project.ProjectDbContext db)
+        public ProjectController(Data.Project.ProjectDbContext db, IUsersCollection users)
         {
             Invites = db;
-            Users = db;
+            Users = users;
             Projects = db;
 
       }
         public IActionResult Index(int ProjectId)
         {
             Project.Project project = Projects.GetProject(ProjectId);
-            Worky.Users.User user = Worky.Users.User.GetUsrByEmail(User.Identity.Name);
+            Worky.Users.User user = Users.GetUser(User.Identity.Name);
             if (project == null)
             {
                 return RedirectToAction("NoAccess", "Msg");
                
             }
             Models.Project.ProjectModel model=new Models.Project.ProjectModel(project);
-            
+            model.Owner = Users.GetUser(project.UserId);
 
             model.SetValuesFromProject(project);
             model.SetIvites(Invites.GetInvitesForProject(ProjectId));
