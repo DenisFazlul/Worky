@@ -54,7 +54,13 @@ namespace Worky.Controllers
             }
 
 
-            model.GetDays();
+            model.GetCallendarDays();
+
+            foreach(DetailDayEventsModel m in model.DaysModels)
+            {
+                m.DailyEvents = GetDaysEvents(m.Day.Date, pid);
+            }
+           
             
             return View(model);
         }
@@ -66,10 +72,28 @@ namespace Worky.Controllers
         }
         public IActionResult DetailDay(int pid, int month = -1, int year = -1,int DayNumber=-1)
         {
-            DayModel model = new DayModel();
+            DetailDayEventsModel model = new DetailDayEventsModel();
             model.Day = new Day(year, month, DayNumber, pid);
-            model.Day.GetDayEvents();
+            model.DailyEvents = GetDaysEvents(new DateTime(year, month, DayNumber), pid);
+           
             return View(model);
+        }
+        public List<ICallendarEvent> GetDaysEvents(DateTime date, int projectId)
+        {
+            List<ICallendarEvent> events = new List<ICallendarEvent>();
+          
+            foreach (Worky.Project.Task.Task task in projects.GetTaskByDay(date, projectId))
+            {
+                TaskCallendarItem item = new TaskCallendarItem();
+                item.Start = task.Start;
+                item.End = task.End;
+                item.Id= task.Id;
+                item.Name=task.Name;
+                
+                events.Add(item);
+            }
+
+            return events;
         }
     }
 }

@@ -4,7 +4,7 @@ using Worky.Models.Project;
 
 namespace Worky.Project.Task
 {
-    public class Task: ICallendarEvent
+    public class Task
     {
         public int Id { get; set; }
         public int TaskStatusId { get; set; }

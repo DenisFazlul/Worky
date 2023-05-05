@@ -1,8 +1,9 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@using Worky.Models.DocModels;
+﻿ 
 
+@using Worky.Models.DocModels;
+@{
+    Layout = "_Layout";
+}
 <head>
     <style>
         .tree-item{
@@ -17,7 +18,7 @@
 </head>
 @model DocumentationModel 
 @{
-    <div style="display:grid; grid-template-columns:1fr 3fr">
+    <div style="display:grid; grid-template-columns:auto 3fr; gap:40px;">
         <div >
             @if (Model.BookModel.StartPage == null)
             {

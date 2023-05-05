@@ -1,0 +1,31 @@
+﻿ 
+
+
+
+
+@media (min-width: 1024px){
+    /* DESKTOP */
+    .MainContaineer {
+        padding: 50px;
+    }
+}
+
+@media (min-width: 425px) and (max-width: 1024px){
+    /* TABLET */
+    .MainContaineer {
+        padding: 50px;
+    }
+}
+@media (max-width: 425px){
+    /* MOBILE */
+    .MainContaineer {
+        padding: 5px;
+    }
+}
+
+.DBorder {
+    border: 1px solid;
+    border-color: #d5d5d5;
+    border-radius: 3px;
+    padding: 6px;
+}

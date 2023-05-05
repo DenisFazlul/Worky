@@ -1,11 +1,15 @@
 ﻿namespace Worky.Models.Calendar
 {
-    public interface ICallendarEvent
+    public class MeetingModel : ICallendarEvent
     {
-        public string GetEditLink();
-        public int Id { get; set; }
+        public int Id {get;set;}
         public string Name { get; set; }
         public DateTime End { get; set; }
         public DateTime Start { get; set; }
+
+        public string GetEditLink()
+        {
+            return "meeting";
+        }
     }
 }

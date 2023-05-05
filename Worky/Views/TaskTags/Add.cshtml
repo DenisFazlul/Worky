@@ -1,22 +1,49 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
+@{
+    Layout = "_Layout";
+}
 @using Worky.Models.TaskTags;
 @model AddTagsToTaskModel;
 
 
-<div>
-    @foreach(string existTag in @Model.ExistTags)
-    {
-            <a>@existTag</a>
-           
-    }
-</div>
 
-<form method="post">
-    <input asp-for="@Model.TaskId" hidden />
-    <input asp-for="@Model.InputTags" />
-    <button type="submit">Добавить</button>
-</form>
+
+<div style="width:500px; margin:auto">
+
+    <h4>
+        Добавить теги
+    </h4>
+    <hr />
+    <div>
+        @if(Model.ExistTags.Count==0)
+        {
+            <a>В проекте нет тегов, введите текст что бы доавить тег</a>
+        }
+        else
+        {
+            @foreach(string existTag in @Model.ExistTags)
+            {
+              <a onclick="AddTag('@existTag')">@existTag,</a>
+            }
+        }
+    
+    </div>
+
+    <form method="post" style="padding-top:15px" >
+        <input asp-for="@Model.TaskId" hidden />
+        <input class="form-control" id="inp" asp-for="@Model.InputTags" placeholder="Введите имя тегов через запятую" />
+        <button class="form-control" type="submit">Добавить</button>
+    </form>
+</div>
+<script>
+    function AddTag(tag)
+    {
+       let box= document.getElementById('inp');
+       let v=box.value;
+       box.value=v+tag+',';
+    }
+</script>
 @{
 }

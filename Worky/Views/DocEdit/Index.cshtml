@@ -3,27 +3,25 @@
 @{
     ViewData["Title"] = "Index";
 }
+
 <head>
+   <link rel="stylesheet" href="~/js/ql.js" />
    <script type="text/javascript">
-    function f()
-    {
-        var ht= document.getElementById('editor').innerHTML;
-       
-    }
+          
   </script>
 </head>
  
-<div style="margin:100px">
+<div  >
 <h4>Редактирование</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Index">
+    <div >
+        <form asp-action="Index" >
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Id" hidden class="control-label"></label>
-                <input asp-for="Id" class="form-control" />
-                <span asp-validation-for="Id" class="text-danger"></span>
+                <input asp-for="Id" hidden class="form-control" />
+                <span asp-validation-for="Id" hidden class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
@@ -31,18 +29,23 @@
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
              <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" id="ds" class="form-control" />
+                <label asp-for="Description" hidden  class="control-label"></label>
+                <input asp-for="Description" hidden id="ds" class="form-control" />
                 <span asp-validation-for="Description"  class="text-danger"></span>
+                <a>Description</a>
+                <div id="editor">
+   
+                </div>
             </div>
             <input asp-for="bookId" hidden class="form-control" />
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" onload="Load('@Model.Description')" onclick='GetText()' />
+                <input type="submit" value="Save" class="btn btn-primary"   onclick="GetValue()"  />
             </div>
         </form>
     </div>
 </div>
 
+ 
 <div>
     <a href="~/Documentation/Watch?bookId=@Model.bookId&selectedPage=@Model.Id">к документации</a>
 </div>
@@ -52,10 +55,8 @@
 <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 
 <!-- Create the editor container -->
-<div id="editor">
-    @Model.Description
-  
-</div>
+
+
 <!-- Include the Quill library -->
 <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 
@@ -64,15 +65,21 @@
   var quill = new Quill('#editor', {
     theme: 'snow'
   });
-  function Load(text)
-  {
-      quill.setText(text);
-  }
-  function GetText()
-  {
 
-      var t= document.getElementById('editor').firstChild;
-      var text = t.innerHTML;
-      document.getElementById('ds').value=text;
+  load();
+  function load()
+  {
+      let val=document.getElementById("ds").value;
+      
+      
+      const delta = quill.clipboard.convert(val)
+
+      quill.setContents(delta, 'silent')
+  }
+  function GetValue()
+  {
+       
+      let ht=quill.container.firstChild.innerHTML;
+      document.getElementById("ds").value=ht;
   }
 </script>

@@ -2,18 +2,17 @@
 @{
     ViewData["Title"] = "DetailDay";
 }
-@model Worky.Models.Calendar.DayModel
+@model Worky.Models.Calendar.DetailDayEventsModel
 
-<h3>@Model.Day.MonthName</h3>
-<h3>@Model.Day.Date.Day</h3>
-<br />
-<a>@Model.Day.Date.Year</a>
+ 
+<a>@Model.Day.Date.Year</a><a>@Model.Day.Date.Month</a><a>@Model.Day.Date.Day</a>
 <hr />
 
 <div>
-    @foreach(Worky.Models.Calendar.ICallendarEvent Event in @Model.Day.Tasks)
+    @foreach(Worky.Models.Calendar.ICallendarEvent Event in @Model.DailyEvents)
     {
         <div>
+            <a>@Event.Name</a>
             <a>@Event.Start</a>
             <a>@Event.Name</a>
         </div>

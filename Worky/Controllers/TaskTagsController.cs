@@ -8,23 +8,23 @@ namespace Worky.Controllers
 {
     public class TaskTagsController : Controller
     {
-        ITagsDb tags;
-        IProjectDb projects;
-        public TaskTagsController(ITagsDb db, Data.Project.ProjectDbContext prj)
+        ITagsDb Tags;
+        IProjectDb Projects;
+        public TaskTagsController(ITagsDb tagDb, Data.Project.ProjectDbContext prj)
         {
-            tags = db;
-            projects = prj;
+            Tags = tagDb;
+            Projects = prj;
         }
         [HttpGet]      
         public IActionResult Add(int TaskId)
         {
-            Project.Task.Task task = projects.GetTaskById(TaskId);
+            Project.Task.Task task = Projects.GetTaskById(TaskId);
 
 
             AddTagsToTaskModel model = new AddTagsToTaskModel();
             model.TaskId = TaskId;
 
-             TagType[] existTagTypes = tags.GetTagTypesForProject(task.ProjectId);
+             TagType[] existTagTypes = Tags.GetTagTypesForProject(task.ProjectId);
             model.SetExistTagTypes(existTagTypes);
 
             return View(model);
@@ -32,25 +32,36 @@ namespace Worky.Controllers
         [HttpPost]
         public IActionResult Add(AddTagsToTaskModel model)
         {
-            Project.Task.Task task = projects.GetTaskById(model.TaskId);
+            Project.Task.Task task = Projects.GetTaskById(model.TaskId);
 
             string[] tagNames = model.GetTags();
 
             foreach (string tagName in tagNames)
             {
-                TagType[] tagsInProject = tags.GetTagTypesForProject(task.ProjectId);
-                TagType existTagTypt = tagsInProject.Where(i => i.Name == tagName).FirstOrDefault();
-
-
-                if(existTagTypt==null)
+                TagType[] tagsInProject = Tags.GetTagTypesForProject(task.ProjectId);
+                TagType existTagTypeInProject = tagsInProject.Where(i => i.Name == tagName).FirstOrDefault();
+                if(existTagTypeInProject==null)
                 {
-                    existTagTypt = tags.CreateTagType(task.ProjectId, tagName);
+                    existTagTypeInProject = Tags.CreateTagType(task.ProjectId, tagName);
                 }
-                tags.CreateTagTaskInstance(task.Id, existTagTypt.Id);
+                Tags.CreateTagTaskInstance(task.Id, existTagTypeInProject.Id);
 
             }
 
             return Redirect($"~/Task/Edit?TaskId={model.TaskId}");
+        }
+
+        [HttpGet]
+        public IActionResult RemoveTag(int tagInstanceId)
+        {
+            int TaskId = 0;
+            TagTaskInstance inst= Tags.GetTagInstanceById(tagInstanceId);
+           
+
+            TaskId= inst.TaskId;
+
+            Tags.RemoveTagTaskInstance(tagInstanceId);
+            return Redirect($"~/Task/Edit?TaskId={TaskId}");
         }
         
 

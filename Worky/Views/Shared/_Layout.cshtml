@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Worky.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/MainWindow.css" />
+    <link rel="stylesheet" href="~/css/TextStyles.css" />
 </head>
 <body>
     <header>
@@ -43,12 +45,14 @@
         
        
     </header>
-    @*<div>
-         @RenderBody()
-    </div>*@
+
     <div   style="padding-top: 3em;">
         <main role="main" class="pb-3">
-            @RenderBody()
+            <div class="MainContaineer">
+                 @RenderBody()
+           
+           </div>
+             
         </main>
     </div>
 

@@ -5,6 +5,9 @@
 @{
     ViewData["Title"] = "Edit";
 }
+@{
+    Layout = "_Layout";
+}
 <head>
     <style>
         .blockPadding{
@@ -41,7 +44,7 @@
 
 </head>
 
-<div style="padding:50px">
+<div>
     <div style="display:grid; grid-template-columns: 1fr 100px;">
         <h2>Редактирование</h2>
        
@@ -111,20 +114,7 @@
                         
                             <label  class="form-control" >@Model.GetOwnerName()</label>
                         </div>
-                        <div style="display:flex">
-                            <div class="form-control">
-                                 <a href="~/TaskTags/Add?TaskId=@Model.TaskId">Добавить теги</a>
-                            </div>
-                            
-                            @foreach(TagTaskInstanceModel m in @Model.Tags)
-                            {
-                                <div class="form-control">
-                                    <a>@m.Name</a>
-                                </div>
-
-                                
-                            }
-                        </div>
+                       
 
                         
                
@@ -139,7 +129,24 @@
     </form>
        
    
+    <hr />
+    <div>
+         <div style="display:flex">
+                             
+                            <a class="Dbtn" href="~/TaskTags/Add?TaskId=@Model.TaskId">Добавить теги</a>
+                             
+                            
+                            @foreach(TagTaskInstanceModel m in @Model.Tags)
+                            {
+                                <div class="DBorder">
+                                    <a>@m.Name</a>
+                                    <a href="~/TaskTags/RemoveTag?tagInstanceId=@m.Id">X</a>
+                                </div>
 
+                                
+                            }
+          </div>
+    </div>
 
 
 

@@ -1,5 +1,4 @@
-﻿body {
-}
+﻿ 
 @media (min-width: 1024px) {
     /* DESKTOP */
     .DefGrid {
@@ -7,9 +6,7 @@
         flex-wrap: wrap;
         flex-direction: row;
     }
-    .DefWorkSpace {
-        margin: 50px;
-    }
+    
     .DCardSize {
         min-width:350px;
     }
@@ -21,9 +18,7 @@
         flex-wrap: wrap;
         flex-direction: row;
     }
-    .DefWorkSpace{
-        margin:50px;
-    }
+   
     .DCardSize {
     }
 
@@ -36,9 +31,7 @@
         flex-wrap: wrap;
         flex-direction: column;
     }
-    .DefWorkSpace {
-        margin: 5px;
-    }
+     
     .DCardSize{
 
     }

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "nGxqT5Av6txrF6HagOq5DbEQ1m/UeVYETkFGQftRrFA=",
+  "Hash": "z2Dc3nwKC2LZ/T08m4AiZI56iumsfe5T5iImGNDNACw=",
   "Source": "Worky",
   "BasePath": "_content/Worky",
   "Mode": "Default",
@@ -1105,6 +1105,23 @@
       "OriginalItemSpec": "wwwroot\\css\\EditCard.css"
     },
     {
+      "Identity": "C:\\Users\\denis\\source\\repos\\Worky\\Worky\\wwwroot\\css\\MainWindow.css",
+      "SourceId": "Worky",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\denis\\source\\repos\\Worky\\Worky\\wwwroot\\",
+      "BasePath": "_content/Worky",
+      "RelativePath": "css/MainWindow.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\MainWindow.css"
+    },
+    {
       "Identity": "C:\\Users\\denis\\source\\repos\\Worky\\Worky\\wwwroot\\css\\ProjectMenu.css",
       "SourceId": "Worky",
       "SourceType": "Discovered",
@@ -1222,6 +1239,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\Documentation.js"
+    },
+    {
+      "Identity": "C:\\Users\\denis\\source\\repos\\Worky\\Worky\\wwwroot\\js\\ql.js",
+      "SourceId": "Worky",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\denis\\source\\repos\\Worky\\Worky\\wwwroot\\",
+      "BasePath": "_content/Worky",
+      "RelativePath": "js/ql.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\ql.js"
     },
     {
       "Identity": "C:\\Users\\denis\\source\\repos\\Worky\\Worky\\wwwroot\\js\\site.js",

@@ -1,5 +1,5 @@
 ﻿@model Worky.Models.Calendar.CallendarModel
-
+@using Worky.Models.Calendar;
 @{
     ViewData["Title"] = "Month";
 }@{
@@ -79,7 +79,7 @@
             </div>
             <div class="calGrid">
                 <div>
-                    <a>Пy</a>
+                    <a>Пн</a>
                 </div>
                  <div>
                     <a>Вт</a>
@@ -101,7 +101,7 @@
                 </div>
             </div>
             <div class="calGrid">
-                @foreach(Worky.Models.Calendar.Day day in @Model.Days)
+                @foreach(Worky.Models.Calendar.DetailDayEventsModel day in @Model.DaysModels)
                 {
        
                     <div class="dayCard ">
@@ -112,19 +112,19 @@
 
                               <div style="display:flex;flex-direction:column">
                                   <div style="background-color:grey; padding-left: 15px;" > 
-                                      <a style="text-decoration:none; color:white;" href="~/Callendar/DetailDay?pid=@Model.ProjectId&&month=@day.Date.Month&&year=@day.Date.Year&&DayNumber=@day.Date.Day">@day.Number</a>
+                                      <a style="text-decoration:none; color:white;" href="~/Callendar/DetailDay?pid=@Model.ProjectId&&month=@day.Day.Date.Month&&year=@day.Day.Date.Year&&DayNumber=@day.Day.Date.Day">@day.Day.DayNumber :@day.Day.MonthName</a>
                                   </div>
                                  
                                    <div style="display:flex; flex-direction:column;  "> 
-                                       @foreach(Worky.Project.Task.Task t in day.Tasks)
-                                            {
+                                       @foreach(ICallendarEvent t in day.DailyEvents)
+                                       {
                         
-                                        <a href="~/Task/Edit?TaskId=@t.Id"class="Dbtn" id=@t.Id mo>@t.Name</a>
+                                            <a href="~/@t.GetEditLink()">@t.Name</a>
                                        
                         
                        
                         
-                                        }
+                                       }
                                    </div>
                               </div>
                              

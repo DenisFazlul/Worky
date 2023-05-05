@@ -26,28 +26,29 @@ namespace Worky.Models.Calendar
             this.CurYear = year;
         }
 
-        public List<Day> Days { get; set; }
+        public List<DetailDayEventsModel> DaysModels { get; set; }
         public CallendarModel()
         {
             months=new List<Month>();
             Years = new List<int>();
-            this.Days = new List<Day>();
+            this.DaysModels = new List<DetailDayEventsModel>();
             GetYears();
             GetMon();
             
 
         }
 
-        public void GetDays()
+        public void GetCallendarDays()
         {
             int days= DateTime.DaysInMonth(this.CurYear, this.CurMonth.Number+1);
             AddEmptyDays();
             for(int i=0; i<days; i++)
             {
-                Day day = new Day(this.CurYear,this.CurMonth.Number+1,i+1,this.ProjectId);
-               
-                day.GetDayEvents();
-                this.Days.Add(day);
+                
+                DetailDayEventsModel model = new DetailDayEventsModel();
+                model.Day = new Day(this.CurYear, this.CurMonth.Number + 1, i + 1, this.ProjectId);
+                
+                this.DaysModels.Add(model);
             }
         }
 
@@ -87,9 +88,9 @@ namespace Worky.Models.Calendar
         {
             for (int i = 0; i < count; i++)
             {
-                Day d = new Day();
+                DetailDayEventsModel d = new DetailDayEventsModel();
                 d.IsValid = false;
-                this.Days.Add(d);
+                this.DaysModels.Add(d);
             }
         }
 
@@ -115,7 +116,13 @@ namespace Worky.Models.Calendar
 
         public void GetYears()
         {
-            Years.Add(2022);
+
+            int cur= DateTime.Now.Year;
+            for (int i = 0; i < 3; i++)
+            {
+                Years.Add(cur+i);
+            }
+             
         }
         public void GetMon()
         {

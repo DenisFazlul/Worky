@@ -55,8 +55,20 @@ namespace Worky.Data.Tags
            TagTaskInstance exist=this.TagTaskInstances.Where(i=>i.Id==TagTaskInstanceId).FirstOrDefault();
             if(exist!=null)
             {
+
+               
                 this.TagTaskInstances.Remove(exist);
             }
+            this.SaveChanges();
+
+            List<TagTaskInstance> similarTags = this.TagTaskInstances.Where(i => i.TagTypeId == exist.TagTypeId).ToList();
+            if(similarTags.Count==0)
+            {
+                TagType type=this.TagTypes.Where(i=>i.Id== exist.TagTypeId).FirstOrDefault();
+                this.TagTypes.Remove(type);
+                this.SaveChanges();
+            }
+            
         }
 
         public TagTaskInstance[] GetTagTaskInstancesForTask(int TaskId)
@@ -71,7 +83,7 @@ namespace Worky.Data.Tags
 
         public TagTaskInstance GetTagInstanceById(int tagInstanceId)
         {
-           return TagTaskInstances.Where(i=>i.Id != tagInstanceId).FirstOrDefault();
+           return TagTaskInstances.Where(i=>i.Id == tagInstanceId).FirstOrDefault();
         }
     }
 }
