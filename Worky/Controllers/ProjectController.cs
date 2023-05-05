@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Worky.Models;
 using Worky.Project;
 using Worky.Users;
 
@@ -31,8 +32,8 @@ namespace Worky.Controllers
             model.Owner = Users.GetUser(project.UserId);
 
             model.SetValuesFromProject(project);
-            model.SetIvites(Invites.GetInvitesForProject(ProjectId));
-            
+             
+            model.Invites = CreateInvitesModels(Invites.GetInvitesForProject(ProjectId));
             
            
             
@@ -54,7 +55,22 @@ namespace Worky.Controllers
 
             
         }
-        
+
+        private List<InviteModel> CreateInvitesModels(List<Invite> invites)
+        {
+           List<InviteModel> model = new List<InviteModel>();
+            foreach(Invite i in invites)
+            {
+                InviteModel imodel = new InviteModel();
+                imodel.Id=i.Id;
+                User user= Users.GetUser(i.UserId);
+                imodel.User = user;
+                imodel.Email = user.Email;
+                imodel.ProjectId=i.ProjectId;
+                model.Add(imodel);
+            }
+            return model;
+        }
 
         private bool IsUserInvittesToProiject(List<Invite> invites)
         {

@@ -26,13 +26,27 @@ namespace Worky.Controllers
             }
             Models.Project.UserProjectsModel model = new Models.Project.UserProjectsModel();
 
-            model.UserProject=  model.ConvertProjectsToModels(Projects.GetProjectsForUser(userId));
-            model.InvitesProject = model.ConvertProjectsToModels(GetInvitesProject(userId));
+            model.UserProject= CreateProjsectModels(Projects.GetProjectsForUser(userId));
+            List<Worky.Project.Project> invitesProjects = GetInvitesProject(userId);
+
+            model.InvitesProject = CreateProjsectModels( invitesProjects);
            
 
            
 
             return View(model);
+        }
+        public List<Worky.Models.Project.ProjectModel> CreateProjsectModels(List<Worky.Project.Project> projects)
+        {
+            List<Models.Project.ProjectModel> models = new List<Models.Project.ProjectModel>();
+
+            foreach (Worky.Project.Project prj in projects)
+            {
+                Models.Project.ProjectModel model = new Models.Project.ProjectModel(prj);
+                model.Owner = Users.GetUser(prj.UserId);
+                models.Add(model);
+            }
+            return models;
         }
 
         private List<Project.Project> GetInvitesProject(int userId)

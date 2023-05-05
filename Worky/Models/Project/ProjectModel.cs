@@ -27,14 +27,6 @@ namespace Worky.Models.Project
             this.Name = model.Name;
         }
 
-        internal void SetIvites(List<Invite> invites)
-        {
-            foreach(Invite invite in invites)
-            {
-                InviteModel model = new InviteModel();
-                model.SetIvite(invite);
-                this.Invites.Add(model);
-             }
-        }
+         
     }
 }
