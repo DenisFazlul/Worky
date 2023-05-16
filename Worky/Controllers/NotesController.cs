@@ -19,8 +19,8 @@ namespace Worky.Controllers
             Project.Project project = Projects.GetProject(ProjectId);
             
            
-                
-            project.GetNotes();
+            project.Notes=Projects.GetNotes(ProjectId);
+            
             Models.Project.NotesModel model = new Models.Project.NotesModel(project);
             model.Notes = project.Notes;
            
@@ -32,7 +32,10 @@ namespace Worky.Controllers
             Project.Project project = Projects.GetProject(ProjectId);
 
             Project.Note note = new Project.Note();
-            project.AddNote(note);
+            note.ProjectId = ProjectId;
+            Projects.AddNote(note);
+
+             
             
             return RedirectToAction("ProjectNotes",new {ProjectId=ProjectId});
         }

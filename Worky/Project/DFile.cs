@@ -23,16 +23,8 @@
         public string ContentType { get; set; }
         public string Name { get; set; }
 
-        internal void AddToDb()
-        {
-            Data.Project.IdFilesDb col = Data.DB.GetFileDb();
-            col.AddFile(this);
-        }
+        
 
-        internal void Delete()
-        {
-            Data.Project.IdFilesDb files = Data.DB.GetFileDb();
-            files.Remove(this);
-        }
+        
     }
 }

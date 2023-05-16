@@ -14,5 +14,10 @@ namespace Worky.Data.Project
         public void RemovePage(int PageId);
         public DocumentPage GetPage(int id);
         void UpdatePage(DocumentPage page);
+        public PageContent AddPageContent(int PageId);
+        public void DeletePageContent(int PageContentId);
+        
+        public void UpdatePageContent(PageContent pageContent);
+
     }
 }

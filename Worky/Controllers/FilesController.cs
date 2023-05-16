@@ -8,11 +8,11 @@ namespace Worky.Controllers
 {
     public class FilesController : Controller
     {
-        Data.Project.IdFilesDb col;
+        Data.Project.IdFilesDb filesDB;
         Data.Project.IProjectDb prj;
         public FilesController(ProjectDbContext context)
         {
-            col = context;
+            filesDB = context;
             prj= context;
         }
         [HttpGet]
@@ -36,7 +36,7 @@ namespace Worky.Controllers
 
                 
                     DFile file = new DFile(uploadedFile);
-                    col.AddFile(file);
+                    filesDB.AddFile(file);
                     TaskFile ts =new TaskFile();
                     ts.TaskId = TaskId;
                     ts.FileId = file.Id;
@@ -54,17 +54,17 @@ namespace Worky.Controllers
         [HttpPost]
         public IActionResult DownloadTaskFile(int TaskFileId)
         {
-            Data.Project.IProjectDb prj = Data.DB.GetProject();
-            Data.Project.IdFilesDb files = Data.DB.GetFileDb();
+            
+            
             TaskFile f = prj.GetTaskFileById(TaskFileId);
-            DFile dFile = files.GetById(f.FileId);
+            DFile dFile = filesDB.GetById(f.FileId);
             return DownloadFile(dFile.Id);
         }
         
         public IActionResult  DownloadFile(int id)
         {
-            Data.Project.IdFilesDb col = Data.DB.GetFileDb();
-            DFile file = col.GetById(id);
+            
+            DFile file = filesDB.GetById(id);
 
            
             return File(file.Bytes, file.ContentType);
@@ -72,12 +72,11 @@ namespace Worky.Controllers
         [HttpPost]
         public void RemoveTaskFile(int TaskFileId)
         {
-            Data.Project.IProjectDb prj = Data.DB.GetProject();
-            Data.Project.IdFilesDb files = Data.DB.GetFileDb();
+          
             TaskFile f = prj.GetTaskFileById(TaskFileId);
-            DFile dFile = files.GetById(f.FileId);
+            DFile dFile = filesDB.GetById(f.FileId);
             prj.RemoveTaskFile(f);
-            files.Remove(dFile);
+            filesDB.Remove(dFile);
 
         }
 

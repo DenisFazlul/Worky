@@ -57,9 +57,9 @@ namespace Worky.Controllers
         }
         public IActionResult Remove(int ProjectId,int InviteId)
         {
-            Worky.Project.Invite invite = Invites.GetInvite(InviteId);
-            Invites.Delete(invite);
-            return RedirectToAction("Index", "Project", new { ProjectId = ProjectId });
+            
+            Invites.DeleteInvite(InviteId);
+            return RedirectToAction("Team", "ProjectTeam", new { pid = ProjectId });
         }
     }
 }

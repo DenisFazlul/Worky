@@ -6,6 +6,7 @@ using Worky.Users;
 
 namespace Worky.Controllers
 {
+   
     [Authorize]
     public class ProjectController : Controller
     {
@@ -28,15 +29,17 @@ namespace Worky.Controllers
                 return RedirectToAction("NoAccess", "Msg");
                
             }
-            Models.Project.ProjectModel model=new Models.Project.ProjectModel(project);
-            model.Owner = Users.GetUser(project.UserId);
+            Models.Project.ProjectModel model=new Models.Project.ProjectModel();
+            model.SetModelDataFromProject(project);
 
-            model.SetValuesFromProject(project);
+            model.SetOwner(Users.GetUser(project.UserId));
              
-            model.Invites = CreateInvitesModels(Invites.GetInvitesForProject(ProjectId));
-            
-           
-            
+
+             
+            model.Invites = InviteModel.CreateInvitesMOdels(Invites.GetInvitesForProject(ProjectId), Users,Projects);
+
+
+
             if (user.Id == project.UserId)
             {
                 model.AllowAddInvites = true;
@@ -72,33 +75,7 @@ namespace Worky.Controllers
             return model;
         }
 
-        private bool IsUserInvittesToProiject(List<Invite> invites)
-        {
-            int CurUserId = GetUserId();
-            if (invites.Where(i => i.UserId == CurUserId).FirstOrDefault() != null)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        private bool IsUserAcseptedToProject(Project.Project p)
-        {
-            int CurUserId = GetUserId();
-            if (p.UserId == CurUserId)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-           
-        }
-
+       
         private int GetUserId()
         {
             string userEmal = User.Identity.Name;

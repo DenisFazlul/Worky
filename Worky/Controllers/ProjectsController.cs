@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Worky.Data.Project;
 using Worky.Users;
-
+using Worky.Models.Project;
 namespace Worky.Controllers
 {
     [Authorize]
@@ -27,23 +27,42 @@ namespace Worky.Controllers
             Models.Project.UserProjectsModel model = new Models.Project.UserProjectsModel();
 
             model.UserProject= CreateProjsectModels(Projects.GetProjectsForUser(userId));
-            List<Worky.Project.Project> invitesProjects = GetInvitesProject(userId);
 
-            model.InvitesProject = CreateProjsectModels( invitesProjects);
+
+            List<Worky.Project.Project> invitesProjects = GetInvitesProject(userId);
+            model.InvitesProject = CreateinvitsProjects( invitesProjects,userId);
            
 
            
 
             return View(model);
         }
-        public List<Worky.Models.Project.ProjectModel> CreateProjsectModels(List<Worky.Project.Project> projects)
+        public List<ProjectModel>CreateinvitsProjects(List<Worky.Project.Project> projects,int UserId)
         {
-            List<Models.Project.ProjectModel> models = new List<Models.Project.ProjectModel>();
+            List<ProjectModel> models = new List<Models.Project.ProjectModel>();
 
             foreach (Worky.Project.Project prj in projects)
             {
-                Models.Project.ProjectModel model = new Models.Project.ProjectModel(prj);
-                model.Owner = Users.GetUser(prj.UserId);
+                InviteningProjectModel model = new InviteningProjectModel();
+                model.SetModelDataFromProject(prj);
+                model.SetOwner(Users.GetUser(prj.UserId));
+
+                model.invite= Invites.GetInvitedForUser(UserId).Where(i => i.ProjectId == prj.Id).FirstOrDefault();
+                models.Add(model);
+            }
+            return models;
+        }
+
+        public List<ProjectModel> CreateProjsectModels(List<Worky.Project.Project> projects)
+        {
+            List< ProjectModel> models = new List<Models.Project.ProjectModel>();
+
+            foreach (Worky.Project.Project prj in projects)
+            {
+                Models.Project.ProjectModel model = new Models.Project.ProjectModel();
+                model.SetModelDataFromProject(prj);
+                model.SetOwner(Users.GetUser(prj.UserId));
+              
                 models.Add(model);
             }
             return models;

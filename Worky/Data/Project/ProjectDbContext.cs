@@ -10,9 +10,60 @@ namespace Worky.Data.Project
     ///Add-Migration t2 -context ProjectDbContext
 
     ///Update-Database -context ProjectDbContext
-    public class ProjectDbContext : DbContext, IProjectDb, IdFilesDb, ITaskCommentsDb, IIviteCollection, IDocmentationDB
+    ///
+    public partial class ProjectDbContext : IPageContentType
     {
-       public DbSet<DocumentPage> Pages { get; set; }
+        public ProjectDbContext()
+        {
+
+        }
+        public PageContentType[] GetPageContentTypes()
+        {
+            return new PageContentType[] { };
+        }
+
+        public PageContentType GetPageContentTypeById(int id)
+        {
+            return null;
+        }
+    }
+    public partial class ProjectDbContext:IDocmentationDB
+    {
+        public PageContent AddPageContent(int PageId)
+        {
+            PageContent c = new PageContent();
+            c.PageId = PageId;
+            this.PageContents.Add(c);
+            this.SaveChanges();
+            return c;
+        }
+
+        public void DeletePageContent(int PageContentId)
+        {
+            PageContent exist = this.PageContents.Where(i => i.Id == PageContentId).FirstOrDefault();
+            if(exist==null)
+            {
+                return;
+            }
+            this.PageContents.Remove(exist );
+            this.SaveChanges();
+        }
+
+        public void UpdatePageContent(PageContent pageContent)
+        {
+            PageContent exist = this.PageContents.Where(i => i.Id == pageContent.Id).FirstOrDefault();
+            if(exist==null)
+            {
+                return;
+            }
+            exist.Set(pageContent);
+            this.SaveChanges();
+        }
+    }
+    public partial class ProjectDbContext : DbContext, IProjectDb, IdFilesDb, ITaskCommentsDb, IIviteCollection, IDocmentationDB
+    {
+        public DbSet<DocumentPage> Pages { get; set; }
+        public DbSet<PageContent> PageContents { get; set; }
         public DbSet<DocumentationBook> DocumentationBooks { get; set; }
         public DbSet<Worky.Project.Note> Notes { get; set; }
         public DbSet<Worky.Project.Project> Projects { get; set; }
@@ -24,6 +75,7 @@ namespace Worky.Data.Project
         public DbSet<Worky.Project.Task.TimeData> TimeDatas { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Invite> invites { get; set; }
+     
 
         public ProjectDbContext(DbContextOptions<ProjectDbContext> options)
          : base(options)
@@ -32,10 +84,7 @@ namespace Worky.Data.Project
 
 
         }
-        public ProjectDbContext()
-        {
-            Database.EnsureCreated();
-        }
+        
         public List<Worky.Project.Note> GetNotes(int ProjectId)
         {
             return this.Notes.Where(i => i.ProjectId == ProjectId).ToList();
@@ -170,12 +219,7 @@ namespace Worky.Data.Project
         {
             Worky.Project.Task.TaskStatus st = this.TaskStatuses.Where(i => i.Id == taskStatus.Id).FirstOrDefault();
             this.TaskStatuses.Remove(st);
-            List<Worky.Project.Task.Task> tasks = this.Tasks.Where(i => i.TaskStatusId == st.Id).ToList();
-            foreach (Worky.Project.Task.Task t in tasks)
-            {
-                t.Delete();
-
-            }
+          
 
 
             this.Save();
@@ -288,16 +332,16 @@ namespace Worky.Data.Project
             this.SaveChanges();
         }
 
-        public void Delete(Invite invite)
+        public void DeleteInvite(int Id)
         {
-            this.invites.Remove(invites.Where(i => i.Id == invite.Id).FirstOrDefault());
+            this.invites.Remove(invites.Where(i => i.Id == Id).FirstOrDefault());
             this.SaveChanges();
         }
         public void RemoveProjectInvites(int ProijectId)
         {
             foreach (Invite i in invites.Where(i => i.ProjectId == ProijectId))
             {
-                Delete(i);
+                DeleteInvite(i.Id);
             }
         }
 
@@ -401,6 +445,20 @@ namespace Worky.Data.Project
             exist.Description = page.Description;
             this.SaveChanges();
         }
+
+        public Invite[] GetInvitedForUser(int id)
+        {
+            return this.invites.Where(i => i.UserId == id).ToArray();
+        }
+
+        public void Update(Invite invite)
+        {
+            Invite exist=this.invites.Where(i=>i.Id==invite.Id).FirstOrDefault();
+            exist.InviteAcsepted = invite.InviteAcsepted;
+            this.SaveChanges();
+        }
+
+       
         #endregion
     }
 }

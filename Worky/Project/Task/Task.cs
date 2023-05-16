@@ -37,17 +37,9 @@ namespace Worky.Project.Task
 
          
 
-        internal void AddToDb()
-        {
-            Data.Project.IProjectDb prj = Data.DB.GetProject();
-            prj.AddTask(this);
-        }
+        
 
-        internal void GetFiles()
-        {
-            Data.Project.IProjectDb col = Data.DB.GetProject();
-            this.TaskFiles = col.GetTaskFiles(this.Id);
-        }
+         
 
        
 
@@ -81,38 +73,10 @@ namespace Worky.Project.Task
             };
         }
 
-        internal void DeteleFiles()
-        {
-            
-            Data.Project.IProjectDb col = Data.DB.GetProject();
+        
 
-            List<TaskFile> tfs = col.GetTaskFiles(this.Id);
-            foreach (TaskFile tf in tfs)
-            {
-                tf.Delete();
-                
-                
-            }
-        }
+       
 
-        internal void DeleteComments()
-        {
-         
-            //GetComments();
-            //foreach(TaskComment comment in this.TaskComments)
-            //{
-            //    comment.Delete();
-
-            //}
-        }
-
-        internal void Delete()
-        {
-            Data.Project.IProjectDb col = Data.DB.GetProject();
-            col.DeleteTask(this);
-            DeteleFiles();
-            DeleteComments();
-
-        }
+        
     }
 }

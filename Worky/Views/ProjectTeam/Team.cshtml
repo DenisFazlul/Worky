@@ -1,0 +1,58 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@using Worky.Models.ProjectTeamModels;
+@model ProjectTeamModel
+@{
+}
+
+@{
+    Layout = "_Layout";
+}
+@if(Model.AccsessToAAddUserToProject)
+{
+ <a class="Dbtn" href="/Invite/Add?ProjectId=@Model.ProjectId">Добавить пользователя</a>
+}
+
+<table style="width:100%">
+    
+    <tr>
+        <td>Имя пользователя</td>
+        <td>Пользователь подверждён</td>
+        <td>Инструменты</td>
+        <td>Статус</td>
+    </tr>
+    @foreach(InviteModel invite in @Model.invites)
+    {
+        <tr>
+            <td>
+                 
+                  <a>  @invite.User.GetName()</a>
+                
+            </td>
+            <td>@invite.UserConfirmed</td>
+            <td>
+                @if(Model.AccsessToAAddUserToProject)
+                {
+                  <a href="/Invite/Remove?ProjectId=@Model.ProjectId&&InviteId=@invite.Id">Отозвать приглашение </a>
+                }
+                @if(invite.InviteAcsepted)
+                {
+                    <a href="~/ProjectTeam/DetailTeammate?inviteId=@invite.Id"> Открыть профиль</a>
+                }
+               
+            </td>
+            <td>
+                @if(invite.InviteAcsepted)
+                {
+                    <a>Приглашение принято</a>
+                }
+                else
+                {
+                    <a>Ещё не принял приглашение</a>
+                }
+            </td>
+        </tr>
+         
+    }
+</table>

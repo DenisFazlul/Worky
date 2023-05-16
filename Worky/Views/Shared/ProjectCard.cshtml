@@ -1,0 +1,51 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@using Worky.Models.Project;
+@model ProjectModel
+
+
+
+
+@if(Model.GetType()==typeof(ProjectModel))
+{
+       <div class="DCard DCardSize DCardPadding" style="max-width:24em;" onclick="OpenProject('@Model.Id')">
+                    <h4>@Model.Name</h4>
+                    <p>@Model.Description</p>
+                   
+        </div>
+}
+@if(Model.GetType()==typeof(InviteningProjectModel))
+{
+    <div class="DCard DCardSize DCardPadding" style="max-width:24em;" onclick="OpenProject('@Model.Id')">
+        <h4>@Model.Name</h4>
+        <p>@Model.Description</p>
+        <div>
+                        <a>Владелец:</a>
+                          <a>@Model.Owner.GetName()</a>
+        </div>
+        <div>
+            @GetDescription(Model)
+        </div>
+                 
+    </div>
+}
+
+@{
+    string GetDescription(ProjectModel m)
+    {
+        InviteningProjectModel model = m as  InviteningProjectModel;
+        if(model==null)
+        {
+            return "";
+        }
+        if (model.invite.InviteAcsepted == false)
+        {
+            return "Требуется подтверждение приглашения к проекту";
+        }
+        return "";
+
+    }
+}

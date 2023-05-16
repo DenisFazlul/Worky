@@ -12,8 +12,8 @@ using Worky.Data.Project;
 namespace Worky.Migrations
 {
     [DbContext(typeof(ProjectDbContext))]
-    [Migration("20230424202547_add description to documen page")]
-    partial class adddescriptiontodocumenpage
+    [Migration("20230508170018_add invite confirm")]
+    partial class addinviteconfirm
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -102,6 +102,9 @@ namespace Worky.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("AutorId")
+                        .HasColumnType("int");
+
                     b.Property<int>("BookId")
                         .HasColumnType("int");
 
@@ -128,6 +131,9 @@ namespace Worky.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<bool>("InviteAcsepted")
+                        .HasColumnType("bit");
 
                     b.Property<int>("ProjectId")
                         .HasColumnType("int");
@@ -314,6 +320,9 @@ namespace Worky.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<Guid>("ApiKey")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ConfirmCode")
                         .IsRequired()

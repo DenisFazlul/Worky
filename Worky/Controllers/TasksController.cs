@@ -72,7 +72,7 @@ namespace Worky.Controllers
 
             if(taskStatuses.Count==0)
             {
-                project.AddDefultTaskStatus();
+                Worky.Project.Task.TaskStatus.CreateDefultTaskSttusForProject(projects, ProjectId);
                 taskStatuses = projects.GetTaskStatuses(project.Id);
             }
 
@@ -111,8 +111,14 @@ namespace Worky.Controllers
         {
              
             Worky.Project.Task.TaskStatus st= projects.GetTaskStatusById(TaskStatusId);
+            Project.Task.Task task = new Project.Task.Task();
+            task.CreationTime = DateTime.Now;
+            task.TaskStatusId = st.Id;
+            task.ProjectId = st.ProjectId;
+            projects.AddTask(task);
             
-            st.AddNewTask();
+
+           
             return RedirectToAction("ProjectTasks", new { ProjectId = st.ProjectId });
         }
         

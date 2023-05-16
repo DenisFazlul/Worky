@@ -11,11 +11,7 @@ namespace Worky.Project.Task
         public int UserId { get; set; }
         public DateTime DateTime { get; set; }
 
-        internal void Delete()
-        {
-            Worky.Data.Project.ITaskCommentsDb com = Data.DB.GetCommntsDb();
-            com.RemoveComment(this);
-        }
+       
     }
         
 }

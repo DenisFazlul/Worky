@@ -42,7 +42,7 @@ namespace Worky.Controllers
         [HttpPost]
         public IActionResult AddToDb(Models.CreateTaskModel model, List<IFormFile> files)
         {
-            Worky.Project.Task.Task task = model.GetTask();
+            Worky.Project.Task.Task task = model.GetTask(projectDb);
             CurrentUser u = new CurrentUser(User);
             task.AutorId = u.Id;
             projectDb.AddTask(task);

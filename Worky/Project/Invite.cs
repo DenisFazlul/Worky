@@ -9,19 +9,8 @@ namespace Worky.Project
         public int UserId { get; set; }
         
         public string UserEmail { get; set; }
-        [NotMapped]
-        public string UserName { get; set; }
-        
-        public string GetUserNick()
-        {
-            if(UserName=="Новый")
-            {
-                return UserEmail;
-            }
-            else
-            {
-                return UserName;
-            }
-        }
+
+        public bool InviteAcsepted { get; set; } = false;
+       
     }
 }

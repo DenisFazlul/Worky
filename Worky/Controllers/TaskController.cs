@@ -7,6 +7,7 @@ using Worky.Data.Project;
 using Worky.Data.Tags;
 using Worky.Project.Tags;
 using Worky.Models.TaskTags;
+using Worky.Services;
 
 namespace Worky.Controllers
 {
@@ -15,11 +16,14 @@ namespace Worky.Controllers
         IProjectDb projectDb;
         IUsersCollection usersDb;
         ITagsDb tagsDb;
+        ITaskCommentsDb taskCommentsDb;
+        IdFilesDb filesDb;
         public TaskController(ProjectDbContext db,IUsersCollection _users, ITagsDb _tags)
         {
             projectDb = db;
             usersDb = _users;
             tagsDb = _tags;
+            taskCommentsDb = db;
         }
         [HttpGet]
         public IActionResult Edit(int TaskId)
@@ -39,32 +43,29 @@ namespace Worky.Controllers
         }
         private EditTaskModel CreateEditModel(Worky.Project.Task.Task task)
         {
-            List<System.Threading.Tasks.Task> tasks = new List<System.Threading.Tasks.Task>();
+           
             Models.Project.EditTaskModel model = new Models.Project.EditTaskModel(task);
 
 
             model.Owner = usersDb.GetUser(task.AutorId);
             model.TaskStatuses = projectDb.GetTaskStatuses(task.ProjectId);
 
+
+
+
+           
+                 List<CommentModel> comments = GetTaskCommentsForTask(task.Id);
+                 model.SetCommentsModel(comments);
+           
+
           
 
+            
+                task.TaskFiles = projectDb.GetTaskFiles(task.Id);
+                  
+            
 
-            System.Threading.Tasks.Task commentTask= System.Threading.Tasks.Task.Run(() =>
-            {
-                List<CommentModel> comments = GetTaskCommentsForTask(task.Id);
-                model.SetCommentsModel(comments);
-            });
-
-            tasks.Add(commentTask);
-
-            System.Threading.Tasks.Task FileTask = System.Threading.Tasks.Task.Run(() =>
-            {
-                 task.GetFiles();
-            });
-            tasks.Add(FileTask);
-
-            System.Threading.Tasks.Task tagsTask = System.Threading.Tasks.Task.Run(() =>
-            {
+            
                 TagType[] ProjectTags = tagsDb.GetTagTypesForProject(task.ProjectId);
                 TagTaskInstance[] tagTaskInstances = tagsDb.GetTagTaskInstancesForTask(task.Id);
 
@@ -80,11 +81,10 @@ namespace Worky.Controllers
 
                     model.AddTag(tagmodel);
                 }
-            });
-            tasks.Add(tagsTask);
+            
 
 
-            System.Threading.Tasks.Task.WaitAll(tasks.ToArray());
+           
 
 
            
@@ -150,9 +150,12 @@ namespace Worky.Controllers
         }
         public IActionResult DeleteTask(int TaskId)
         {
-             
+            TaskServices taskServices = new TaskServices(projectDb, taskCommentsDb, filesDb);
+            taskServices.RemoveTask(TaskId);
+
             Worky.Project.Task.Task task = projectDb.GetTaskById(TaskId);
-            task.Delete();
+            projectDb.DeleteTask(task);
+            
           
 
             return RedirectToAction("ProjectTasks", "Tasks", new { ProjectId = task.ProjectId });

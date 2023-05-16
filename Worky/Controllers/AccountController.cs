@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using Worky.Data.Project;
 using Worky.Models;
 using Worky.Models.Account;
 using Worky.Services.EmailService;
@@ -13,10 +14,14 @@ namespace Worky.Controllers
     {
         Users.IUsersCollection Users;
         INotificationService notificationService;
+        Data.IIviteCollection Invites;
+        IProjectDb projects;
         public AccountController(Data.Project.ProjectDbContext db,INotificationService notify, IUsersCollection users)
         {
+            Invites = db;
             Users = users;
             notificationService = notify;
+            projects = db;
         }
         public IActionResult Index()
         {
@@ -197,27 +202,59 @@ namespace Worky.Controllers
         {
             string userName = User.Identity.Name;
             User ExistUser = Users.GetUser(userName);
-            if (ExistUser != null)
-            {
-
-                Models.Account.UserProfileModel model = new Models.Account.UserProfileModel(ExistUser);
-                if(ExistUser.Email==AdminData.AdminEmail)
-                {
-                    model.IsAdmin = true;
-                }
-                return View(model);
-            }
-            else
+            Worky.Project.Invite[] invitesForUser = this.Invites.GetInvitedForUser(ExistUser.Id);
+            invitesForUser = invitesForUser.OrderBy(i => i.InviteAcsepted).ToArray();
+            if (ExistUser == null)
             {
                 return RedirectToAction("Login");
+                
             }
+            Models.Account.UserProfileModel model = new Models.Account.UserProfileModel(ExistUser);
+            if (ExistUser.Email == AdminData.AdminEmail)
+            {
+                model.IsAdmin = true;
+            }
+            model.ApiKey = ExistUser.ApiKey.ToString();
+            List<InviteModel> invitesModels= InviteModel.CreateInvitesMOdels(invitesForUser.ToList(), Users, projects);
+            model.invites = invitesModels;
+            return View(model);
 
-            
+
         }
+        [HttpGet]
+        public IActionResult ResetApiKey()
+        {
+            string userName = User.Identity.Name;
+            User ExistUser = Users.GetUser(userName);
+            
+            ExistUser.ApiKey = Guid.NewGuid();
+            this.Users.UpdateUser(ExistUser);
+            return RedirectToAction("Profile");
+        }
+
+        [HttpGet]
+        
+        public IActionResult OutFromProject(int InviteId)
+        {
+
+            Invites.DeleteInvite(InviteId);
+            return RedirectToAction("Profile");
+        }
+        public IActionResult ConfirmInvite(int inviteId)
+        {
+            Project.Invite invite= this.Invites.GetInvite(inviteId);
+            invite.InviteAcsepted = true;
+            this.Invites.Update(invite);
+
+
+            return RedirectToAction("Profile");
+        }
+        
         public User GetCurUser()
         {
             string userName = User.Identity.Name;
             User ExistUser = Users.GetUser(userName);
+             
             return ExistUser;
         }
         [HttpGet]

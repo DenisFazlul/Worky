@@ -34,7 +34,7 @@ namespace Worky.Models
 
         }
 
-        internal Worky.Project.Task.Task GetTask()
+        internal Worky.Project.Task.Task GetTask(Data.Project.IProjectDb projectDB)
         {
             Worky.Project.Task.Task t = new Worky.Project.Task.Task();
             t.Name = this.Name;
@@ -43,16 +43,16 @@ namespace Worky.Models
             t.End = this.End;
             t.CreationTime = DateTime.Now;
             t.ProjectId = this.ProjectId;
-            GetTaskStatus();
+            GetTaskStatus(projectDB);
             t.TaskStatusId = this.TaskStatuses[0].Id;
 
 
             return t;
         }
-        public void GetTaskStatus()
+        public void GetTaskStatus(Data.Project.IProjectDb db)
         {
-            Data.Project.IProjectDb col = Data.DB.GetProject();
-            this.TaskStatuses = col.GetTaskStatuses(ProjectId);
+          
+            this.TaskStatuses = db.GetTaskStatuses(ProjectId);
 
         }
         public SelectList GetTaskList()

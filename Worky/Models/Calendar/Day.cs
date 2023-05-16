@@ -27,19 +27,8 @@ namespace Worky.Models.Calendar
 
         }
 
-        public void GetDayEvents ()
-        {
-            GetTask();
-        }
-        private void GetTask()
-        {
-            Data.Project.IProjectDb col = Data.DB.GetProject();
-            foreach (Worky.Project.Task.Task task in col.GetTaskByDay(Date,this.ProjectId))
-            {
-                ICallendarEvent ev = (ICallendarEvent)task;
-                this.Tasks.Add(ev);
-            }
-        }
+        
+       
         
     }
 }

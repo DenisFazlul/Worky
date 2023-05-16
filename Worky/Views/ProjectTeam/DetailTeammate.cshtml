@@ -1,0 +1,31 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@using Worky.Models.ProjectTeamModels;
+@{
+    Layout = "_Layout";
+}
+<style>
+    .cardPadding{
+        margin:20px;
+        padding:20px;
+    }
+</style>
+
+@model DetailTeammateModel
+<div style="display:flex; flex-direction:column">
+
+    <div class="DCard cardPadding" style="display:flex; flex-direction:column;">
+    <h4>@Model.User.GetName()</h4>
+    <hr />
+    <div style="display:flex; flex-direction:column;">
+         <a>Пользователь подтвержден: @Model.User.IsConfirmed</a>
+         <a>Бан: @Model.User.IsBlock</a>
+    </div>
+    
+</div>
+</div>
+ 
+ 
+@{
+}

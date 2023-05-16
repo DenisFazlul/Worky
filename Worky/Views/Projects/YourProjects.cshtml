@@ -33,33 +33,22 @@
 
             @foreach(Worky.Models.Project.ProjectModel pr in Model.UserProject)
             {
-                <div class="DCard DCardSize DCardPadding" style="max-width:24em;" onclick="OpenProject('@pr.Id')">
-                    <h4>@pr.Name</h4>
-                    <p>@pr.Description</p>
-                   
-                </div>
+                @Html.Partial("ProjectCard",pr);
+                 
     
     
             }
     </div>
     
-    <h1>Вы приглашены в проекты</h1>
+    <h1>Общие проекты</h1>
         <hr />
      <div class="DefGrid">
             
 
             @foreach(Worky.Models.Project.ProjectModel pr in Model.InvitesProject)
             {
-                <div class="DCard DCardSize DCardPadding" style="max-width:24em;" onclick="OpenProject('@pr.Id')">
-                    <h4>@pr.Name</h4>
-                    <p>@pr.Description</p>
-                    <div>
-                        <a>Владелец:</a>
-                          <a>@pr.Owner.GetName()</a>
-                    </div>
-                 
-                </div>
-    
+                @Html.Partial("ProjectCard",pr);
+               
     
             }
     </div>

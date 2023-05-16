@@ -4,7 +4,7 @@
 
 namespace Worky.Migrations
 {
-    public partial class seednew1 : Migration
+    public partial class addinviteconfirm : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

@@ -12,8 +12,8 @@ using Worky.Data.Project;
 namespace Worky.Migrations
 {
     [DbContext(typeof(ProjectDbContext))]
-    [Migration("20230421120302_change sheme docs")]
-    partial class changeshemedocs
+    [Migration("20230510165031_addPagesContetnt")]
+    partial class addPagesContetnt
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -102,8 +102,15 @@ namespace Worky.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("AutorId")
+                        .HasColumnType("int");
+
                     b.Property<int>("BookId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -117,6 +124,35 @@ namespace Worky.Migrations
                     b.ToTable("Pages");
                 });
 
+            modelBuilder.Entity("Worky.Project.Documents.PageContent", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PageId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SortIndex")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PageContents");
+                });
+
             modelBuilder.Entity("Worky.Project.Invite", b =>
                 {
                     b.Property<int>("Id")
@@ -124,6 +160,9 @@ namespace Worky.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<bool>("InviteAcsepted")
+                        .HasColumnType("bit");
 
                     b.Property<int>("ProjectId")
                         .HasColumnType("int");
@@ -310,6 +349,9 @@ namespace Worky.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<Guid>("ApiKey")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ConfirmCode")
                         .IsRequired()

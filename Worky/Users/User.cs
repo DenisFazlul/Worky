@@ -12,7 +12,7 @@ namespace Worky.Users
         public bool IsConfirmed { get; set; } = false;
         public string UserName { get; set; } = "Новый";
         public bool IsBlock { get; set; } = false;
-
+        public Guid ApiKey { get; set; }
         
        
       

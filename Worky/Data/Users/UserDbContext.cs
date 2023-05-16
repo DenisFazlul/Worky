@@ -21,6 +21,7 @@ namespace Worky.Users
         public void AddUser(User user)
         {
             user.GenerateCode();
+            user.ApiKey = new Guid();
             this.Users.Add(user);
             this.SaveChanges();
         }
@@ -56,6 +57,7 @@ namespace Worky.Users
                 existUser.UserName = user.UserName;
                 existUser.Email = user.Email;
                 existUser.IsBlock = user.IsBlock;
+                existUser.ApiKey=user.ApiKey;
                 this.SaveChanges();
             
         }

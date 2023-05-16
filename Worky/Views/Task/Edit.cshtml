@@ -180,7 +180,7 @@
 
 
 
-    <div class="blockPadding" >
+    <div class="blockPadding"  >
         <h3>Комментарии</h3>
         <hr />
         <div style="overflow:auto;max-height:300px" >
@@ -198,7 +198,9 @@
             </div>
         }*@
         </div>
+        <div  style="margin-top:10px">
+             @Html.Partial("CommentAddView",new CommentAddModel(){TaskId=Model.TaskId})
+        </div>
         
-        @Html.Partial("CommentAddView",new CommentAddModel(){TaskId=Model.TaskId})
     </div>
 </div>
