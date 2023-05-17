@@ -11,6 +11,7 @@ namespace Worky.Project.Documents
         public int BookId { get; set; }
         public string Description { get; set; } = "Short description";
         public int AutorId { get; set; }
+        public int WhatchCount { get; set; }
 
     }
 }

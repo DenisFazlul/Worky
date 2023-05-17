@@ -1,0 +1,39 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@using Worky.Models.DocModels;
+@using Worky.Project.Documents;
+@model PageContentModel
+@{
+}
+
+<div id='PageContent-@Model.id'>
+
+
+    @if(Model.ContentType==ContentType.header)
+    {
+        <h3>@Model.Content</h3>
+    }
+    else if(@Model.ContentType==ContentType.mainText)
+    {
+         @Html.Raw(@Model.Content)
+         
+    }
+    else if(@Model.ContentType==ContentType.link)
+    {
+        <a href="@Model.Content">@Model.Head</a>
+    }
+    else if(@Model.ContentType==ContentType.code)
+    {
+        <pre>
+            <code>
+            @Model.Content
+            </code>
+        </pre>
+         
+    }
+
+    
+     
+
+</div>

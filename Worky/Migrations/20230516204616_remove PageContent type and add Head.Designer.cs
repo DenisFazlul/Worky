@@ -3,17 +3,19 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Worky.Data.Project;
 
 #nullable disable
 
-namespace Worky.Migrations.ProjectDb
+namespace Worky.Migrations
 {
     [DbContext(typeof(ProjectDbContext))]
-    partial class ProjectDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230516204616_remove PageContent type and add Head")]
+    partial class removePageContenttypeandaddHead
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -115,9 +117,6 @@ namespace Worky.Migrations.ProjectDb
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ParrentId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("WhatchCount")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

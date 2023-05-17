@@ -18,8 +18,15 @@
 </head>
 @model DocumentationModel 
 @{
-    <div style="display:grid; grid-template-columns:auto 3fr; gap:40px;">
+    <div style="display:flex; flex-direction:row; padding-bottom:15px">
+     <button class="Dbtn" onclick='togleHide()'>Меню</button>
+    </div>
+     
+    <div class="docsGrid">
         <div >
+            
+            <div id="treeviewMenu" class="treeviewMenu" >
+            
             @if (Model.BookModel.StartPage == null)
             {
                 <a href="~/Documentation/AddBasePage?bookId=@Model.BookModel.Id">addBasePage</a>
@@ -28,19 +35,13 @@
             {
                  @Html.Partial("PageTreeItem",Model.BookModel.StartPage)
             }
+             </div>
 
-           
-            
         </div>
          <div >
             <div>
             
-                @if (Model.SelectedPage != null)
-                {
-                     <a href="~/DocEdit/Index?PageId=@Model.SelectedPage.Id">edit</a>
-                     <a href="~/Documentation/RemovePage?PageId=@Model.SelectedPage.Id">
-                        Remove page</a>
-                }
+               
              
               </div>
              @if(Model.SelectedPage!=null)
@@ -52,3 +53,22 @@
     
    
 }
+<script>
+    function togleHide()
+    {
+        
+         let menu=$("#treeviewMenu");
+         let dispval= menu.css("display");
+         if(dispval=='block')
+         {
+             menu.css("display","none");
+         }
+         else{
+             menu.css("display","block");
+         }
+          
+        
+
+
+    }
+</script>

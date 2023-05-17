@@ -1,0 +1,23 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@using Worky.Models.DocModels;
+@model PageContentModel;
+
+
+ <form asp-action="EditPageContent" method="post">
+
+     <input asp-for="@Model.id"  hidden/>
+     <input asp-for="@Model.PageId" hidden />
+     <input asp-for="@Model.ContentType"  hidden /> 
+     <a>Имя ссылки</a>
+     <input asp-for="@Model.Head">
+     <a>Ссылка</a>
+     <input asp-for="@Model.Content"  />
+  
+    
+     <input type="submit"  value="Сохранить"/>
+ </form>
+@{
+}
+ 

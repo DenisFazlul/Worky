@@ -12,6 +12,8 @@
         gap: 1em;
         padding:5px
     }
+   
+    
 }
 
 @media (min-width: 425px) and (max-width: 1024px) {
@@ -21,6 +23,7 @@
         grid-template-columns: 1fr 1fr;
         gap: 1em;
     }
+    
 }
 
 @media (min-width: 1024px) {
@@ -30,4 +33,5 @@
         grid-template-columns: 1fr 300px;
         gap: 1em;
     }
+     
 }

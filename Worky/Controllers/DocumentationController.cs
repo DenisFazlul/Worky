@@ -46,7 +46,7 @@ namespace Worky.Controllers
             return RedirectToAction("Watch",new { bookId = book.Id });
         }
        
-        public IActionResult Watch(int bookId,int selectedPage=0)
+        public IActionResult Watch(int bookId,int selectedPageId=0)
         {
             DocumentationBook exist= docDB.GetBookByid(bookId);
             
@@ -84,18 +84,23 @@ namespace Worky.Controllers
             model.BookModel = booksCache.GetBookMode(bookId);
           
             List<Task> tasks = new List<Task>();
-            if(selectedPage!=0)
+            if(selectedPageId!=0)
             {
 
-                Task t1= Task.Factory.StartNew(() =>
-                {
-                    model.BookModel.SetSelectedModel(selectedPage);
-                });
-                tasks.Add(t1);
-                Task t2= Task.Factory.StartNew(() =>
-                {
-                    DocumentPage selectedDocPage = docDB.GetPage(selectedPage);
+               
+                    model.BookModel.SetSelectedModel(selectedPageId);
+                
+               
+               
+                    DocumentPage selectedDocPage = docDB.GetPage(selectedPageId);
+                    
+                    selectedDocPage.WhatchCount++;
+                    
+                    docDB.UpdatePage(selectedDocPage);
+                    
+                     
                     model.SelectedPage = new SelectedPageModel();
+                    model.SelectedPage .WhatchCount=selectedDocPage.WhatchCount;
                     model.SelectedPage.SetFromPage(selectedDocPage);
                     Users.User Autor = usersDb.GetUser(selectedDocPage.AutorId);
                     if (Autor != null)
@@ -104,20 +109,14 @@ namespace Worky.Controllers
                     }
 
 
-                });
-                tasks.Add(t2);
-
-                Task t3 = Task.Factory.StartNew(() => 
-                { 
-                    ///loading docs for selected page
-                });
- 
-                
+        
+                PageContent[] contents= docDB.GetPageContentsForPage(selectedPageId);
+                model.SelectedPage.PageContentsModel = PageContentModel.Convert(contents);
                 
             }
 
 
-            Task.WaitAll(tasks.ToArray());
+           
             return View(model);
 
         }

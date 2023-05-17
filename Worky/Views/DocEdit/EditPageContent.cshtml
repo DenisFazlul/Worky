@@ -1,0 +1,44 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@using Worky.Models.DocModels;
+@model PageContentModel;
+
+@if(@Model.ContentType==Worky.Project.Documents.ContentType.mainText)
+{
+    @Html.Partial("~/Views/DocEdit/PageContentEditMainText.cshtml", Model)
+    
+
+
+}
+else if(@Model.ContentType==Worky.Project.Documents.ContentType.link)
+{
+     @Html.Partial("~/Views/DocEdit/PageContentEditLink.cshtml", Model)
+    
+}
+else if(@Model.ContentType==Worky.Project.Documents.ContentType.code)
+{
+    @Html.Partial("~/Views/DocEdit/PageContentEditCodeBlock.cshtml", Model)
+}
+
+ else
+{
+    
+ <form asp-action="EditPageContent" method="post">
+
+     <input asp-for="@Model.id"  hidden/>
+     <input asp-for="@Model.PageId" hidden />
+      
+     <a>Заголовок</a>
+     <input asp-for="@Model.Head" />
+      
+     <a>Контент</a>
+     <input asp-for="@Model.Content" />
+     
+    
+     <input type="submit" class="Dbtn"  value="Сохранить"/>
+ </form>
+}
+
+@{
+}

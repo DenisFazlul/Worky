@@ -3,17 +3,19 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Worky.Data.Project;
 
 #nullable disable
 
-namespace Worky.Migrations.ProjectDb
+namespace Worky.Migrations
 {
     [DbContext(typeof(ProjectDbContext))]
-    partial class ProjectDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230516172001_add contenttype to page content")]
+    partial class addcontenttypetopagecontent
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -117,9 +119,6 @@ namespace Worky.Migrations.ProjectDb
                     b.Property<int>("ParrentId")
                         .HasColumnType("int");
 
-                    b.Property<int>("WhatchCount")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.ToTable("Pages");
@@ -140,14 +139,13 @@ namespace Worky.Migrations.ProjectDb
                     b.Property<int>("ContentType")
                         .HasColumnType("int");
 
-                    b.Property<string>("Head")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("PageId")
                         .HasColumnType("int");
 
                     b.Property<int>("SortIndex")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Type")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

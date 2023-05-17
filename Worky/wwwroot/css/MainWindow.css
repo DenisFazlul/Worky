@@ -8,6 +8,18 @@
     .MainContaineer {
         padding: 50px;
     }
+    imgSize {
+        width: auto;
+    }
+    .docsGrid {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 40px;
+    }
+    .treeviewMenu {
+        display: block;
+    }
+   
 }
 
 @media (min-width: 425px) and (max-width: 1024px){
@@ -15,14 +27,38 @@
     .MainContaineer {
         padding: 50px;
     }
+    .imgSize {
+        width: 100%;
+    }
+    .docsGrid {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 40px;
+    }
+    .treeviewMenu {
+        display: block;
+    }
 }
 @media (max-width: 425px){
     /* MOBILE */
     .MainContaineer {
         padding: 5px;
     }
+    .imgSize {
+        width: 100%;
+    }
+    .docsGrid {
+        display: grid;
+         
+    }
+    .treeviewMenu {
+        display:none;
+    }
 }
-
+.treeviewMenuHiden {
+    display: none;
+}
+ 
 .DBorder {
     border: 1px solid;
     border-color: #d5d5d5;

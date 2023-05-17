@@ -3,16 +3,57 @@
 @model SelectedPageModel
 @{
 }
+ 
+
 
 <div>
-    <h2>@Model.Name</h2>
-    <a>Create by:@Model.AutorName</a>
+    <div style="display:grid; grid-template-columns:1fr auto;">
+        <div>
+              <h2>@Model.Name</h2>
+              <a>Create by:@Model.AutorName</a>
+              @Html.Partial("WatchCountView",@Model.WhatchCount)
+        </div>
+        <div>
+            
+                     <a href="~/DocEdit/Index?PageId=@Model.Id">
+                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                          <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                          <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                        </svg>
+                     </a>
+                    
+                
+        </div>
+    </div>
+   
     <hr />
-    @Html.Raw(@Model.Description);
     
+    
+
+    <div>
+        @foreach(PageContentModel contentmodel in @Model.PageContentsModel)
+        {
+            @Html.Partial("DetailPageContent",contentmodel);
+        }
+    </div>
 </div>
+  <a href="~/Documentation/RemovePage?PageId=@Model.Id" class="Dbtn">
+                        Удалить страницу</a>
+ 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/shades-of-purple.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
  
  
+<script>
+    resizeImages();
+    function resizeImages()
+    {
+        $("img").addClass("imgSize");
+        let i=$("img");
+        
+    }
+</script>
+<a class="imgSize">asd</a>
 
  
-

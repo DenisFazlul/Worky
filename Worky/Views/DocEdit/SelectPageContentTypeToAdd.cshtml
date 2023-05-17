@@ -1,0 +1,23 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@using Worky.Models.DocModels;
+@model SelectPageContntTypeToAddModel
+
+<form method="post" style="display:flex; flex-direction:row;">
+@for(int i = 0; i<@Model.ContentType.Count;i++)
+{
+    <div>
+
+     
+      <a>@Model.ContentType[i].DisplayName </a>
+       <input asp-for="@Model.ContentType[i].type">
+      <input asp-for="@Model.ContentType[i].IsCheked">
+    </div>
+}
+<input type="submit"  value="Создать"/>
+</form>
+
+ 
+@{
+}

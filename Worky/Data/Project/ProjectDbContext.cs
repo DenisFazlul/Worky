@@ -37,7 +37,16 @@ namespace Worky.Data.Project
             this.SaveChanges();
             return c;
         }
-
+        public PageContent[] GetPageContentsForPage(int PageId)
+        {
+            List<PageContent> c = new List<PageContent>();
+            c = this.PageContents.Where(i => i.PageId == PageId).ToList();
+            return c.ToArray();
+        }
+        public PageContent GetPageContentById(int PageContentId)
+        {
+            return this.PageContents.Where(i => i.Id == PageContentId).FirstOrDefault();
+        }
         public void DeletePageContent(int PageContentId)
         {
             PageContent exist = this.PageContents.Where(i => i.Id == PageContentId).FirstOrDefault();
@@ -84,6 +93,7 @@ namespace Worky.Data.Project
 
 
         }
+        
         
         public List<Worky.Project.Note> GetNotes(int ProjectId)
         {
